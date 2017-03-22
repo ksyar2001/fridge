@@ -1,16 +1,24 @@
 <ion-view view-title="favorite">
-  <ion-content>
-
-	 <h1>favorite</h1>
+  <br>
 
 
-	<!--example of playlists from initial template.
-		can be used for the list of favorite recipe -->
+    <p>list of favorite. need some editing functions (delete)</p>
+    <p>currently using dummy list from controllers.js</p>
 
-    <!-- <ion-list> -->
-      <!-- <ion-item ng-repeat="playlist in playlists" href="#/app/playlists/{{playlist.id}}"> -->
-        <!-- {{playlist.title}} -->
-      <!-- </ion-item> -->
-    <!-- </ion-list> -->
+
+    <!--
+    ng-repeat user saved item in the list of favorite
+    clicking an item will show its recipe.
+    -->
+
+  <button class="button" ng-click="edit()">edit</button>
+
+
+    <ul>
+      <li class="button button-full" ng-repeat="item in listOfFavorite" ng-click="showRecipe(item)">
+        {{item.name}} {{item.dateSaved}} </li>
+    </ul>
+
+
   </ion-content>
 </ion-view>

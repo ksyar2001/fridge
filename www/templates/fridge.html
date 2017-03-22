@@ -1,5 +1,24 @@
 <ion-view view-title="fridge">
   <ion-content>
-    <h1>fridge</h1>
+
+
+    <p>list of items in fridge</p>
+    <p>need to find a list with +, - or edit</p>
+
+
+    <!--
+    ng-repeat user saved item in the list of favorite
+    clicking an item will show its recipe.
+    -->
+
+    <button class="button" ng-click="edit()">edit</button>
+
+
+    <ul>
+      <li class="button button-full" ng-repeat="item in listInFridge">
+        {{item.name}} {{item.dateSaved}} </li>
+    </ul>
+
+
   </ion-content>
 </ion-view>

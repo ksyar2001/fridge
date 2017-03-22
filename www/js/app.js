@@ -61,6 +61,26 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   })
 
+  .state('app.result', {
+    url: '/result',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/result.html',
+        controller: 'resultCtrl'
+      }
+    }
+  })
+
+  .state('app.selectedRecipe', {
+    url: '/selectedRecipe',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/selectedRecipe.html',
+        controller: 'selectedRecipeCtrl'
+      }
+    }
+  })
+
 
   .state('app.favorite', {
     url: '/favorite',

@@ -1,5 +1,23 @@
-<ion-view view-title="result">
+<ion-view view-title="search result">
   <ion-content>
-    <h1>result</h1>
+    <h1>search result</h1>
+
+
+    <p>clicking it will lead to the selectedRecipe</p>
+
+
+
+    <ul>
+      <li class="button button-full" ng-repeat="item in resultList" ng-click="select()">
+        {{item.name}} </li>
+    </ul>
+
+
+    <hr>
+    <p>show general status</p>
+
+
+
+
   </ion-content>
 </ion-view>
