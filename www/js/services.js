@@ -1,4 +1,4 @@
-angular.module('starter.services', ['sql-promise-helper'])
+angular.module('starter.services', [])
 
 .service( 'DB', function($ionicPlatform) {
 	$ionicPlatform.ready( function() {
@@ -11,7 +11,7 @@ angular.module('starter.services', ['sql-promise-helper'])
 				else {
 					db = window.openDatabase( 'my.db', '1.0', 'My', 5*1024*1024 );
 				}
-				var helper = sql-promise-helper.newPromiseHelper( db );
+				var helper = require( 'sql-promise-helper.js' ).newPromiseHelper( db );
 				alert( "DB initialized" );
 			}
 			
