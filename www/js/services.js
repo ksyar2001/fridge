@@ -1,23 +1,110 @@
-angular.module('starter.services', [])
 
-.service( 'DB', function($ionicPlatform) {
-	$ionicPlatform.ready( function() {
-		return {			
-			init : function() {
-				var db;
-				if( window.cordova && window.sqlitePlugin ) {
-					db = window.sqlitePlugin.openDatabase({ name: 'my.db', location: 'default' });
-				}
-				else {
-					db = window.openDatabase( 'my.db', '1.0', 'My', 5*1024*1024 );
-				}
-				var helper = require( 'sql-promise-helper.js' ).newPromiseHelper( db );
-				alert( "DB initialized" );
-			}
-			
-			executeStatement : function( query, value ) {
-				return helper.executeStatement( query, value );
+// Brodybits' sql-promise-helper
+// https://github.com/brodybits/sql-promise-helper
+//
+// reformatted into angular module form
+// previously, node require form
+
+angular.module( 'starter.services', [] )
+	.service( 'DB', function( $ionicPlatform ) {
+		var executeStatement, executeStatementBatch, newBatchTransaction;
+
+		executeStatement = function(db, sql, values, onsuccess, onerror) {
+			if (!!db.executeSql) {
+				return db.executeSql(sql, values || [], onsuccess, onerror);
+			} else {
+				return db.transaction(function(tx) {
+					return tx.executeSql(sql, values, function(ignored, rs) {
+						return onsuccess(rs);
+					}, function(ignored, error) {
+						return onerror(error);
+					});
+				});
 			}
 		};
+
+		executeStatementBatch = function(db, statements, onsuccess, onerror) {
+			if (!!db.sqlBatch) {
+				db.sqlBatch(statements, onsuccess, onerror);
+			} else {
+				db.transaction(function(tx) {
+					var i, len, results, st;
+					results = [];
+					for (i = 0, len = statements.length; i < len; i++) {
+						st = statements[i];
+						if (st.constructor === Array) {
+							results.push(tx.executeSql(st[0], st[1]));
+						} else {
+							results.push(tx.executeSql(st));
+						}
+					}
+					return results;
+				}, onerror, onsuccess);
+			}
+		};
+
+		newBatchTransaction = function(db) {
+			var statements;
+			statements = [];
+			return {
+				executeStatement: function(sql, values) {
+					if (!statements) {
+						throw new Error('Invalid state');
+					}
+					if (!!values) {
+						statements.push([sql, values]);
+					} else {
+						statements.push(sql);
+					}
+				},
+				abort: function() {
+					if (!statements) {
+						throw new Error('Invalid state');
+					}
+					statements = null;
+					return Promise.resolve();
+				},
+				commit: function() {
+					var mystatements;
+					if (!statements) {
+						throw new Error('Invalid state');
+					}
+					mystatements = statements;
+					statements = null;
+					return new Promise(function(resolve, reject) {
+						executeStatementBatch(db, mystatements, resolve, reject);
+					});
+				}
+			};
+		};
+
+		var myDB;
+
+		this.init = function( db ) {
+			$ionicPlatform.ready( function() {
+				if( !!window.cordova && !!window.sqlitePlugin ) {
+					myDB = window.sqlitePlugin.openDatabase({ name: 'my.db', location: 'default' });
+					Debug.log( "cordova" );
+				}
+				else {
+					myDB = window.openDatabase( 'his.db', '1.0', 'My', 5*1024*1024 );
+					Debug.log( "websql" );
+				}
+				Debug.log( "DB initialized" );
+			} );
+		};
+
+		this.executeStatement = function(sql, values) {
+			$ionicPlatform.ready( function() {
+				return new Promise(function(resolve, reject) {
+					return executeStatement(myDB, sql, values, resolve, reject);
+				});
+			} );
+		}
+		this.newBatchTransaction = function() {
+			$ionicPlatform.ready( function() {
+				return newBatchTransaction(myDB);
+			} );
+		}
 	} );
-} );
+

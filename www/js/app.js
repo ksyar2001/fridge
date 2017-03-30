@@ -10,9 +10,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
-    if (window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-      cordova.plugins.Keyboard.disableScroll(true);
+    if( "cordova" in window && "plugins" in window.cordova && "Keyboard" in window.cordova.plugins ) {
+    	if (window.cordova && window.cordova.plugins.Keyboard) {
+      		cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+      		cordova.plugins.Keyboard.disableScroll(true);
+    	}
 
     }
     if (window.StatusBar) {
@@ -21,6 +23,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
 	
 	DB.init();
+	//DB.executeStatement( 'CREATE TABLE IF NOT EXISTS LOGS (id unique, log)' );
+	//DB.executeStatement( 'INSERT INTO LOGS (id, log) VALUES (4, "bar")' );
   });
 })
 
