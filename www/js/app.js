@@ -4,22 +4,27 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-// 'starter.services' is found in services.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'starter.APIservices'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, DB) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
-    if (window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-      cordova.plugins.Keyboard.disableScroll(true);
+    if( "cordova" in window && "plugins" in window.cordova && "Keyboard" in window.cordova.plugins ) {
+    	if (window.cordova && window.cordova.plugins.Keyboard) {
+      		cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+      		cordova.plugins.Keyboard.disableScroll(true);
+    	}
 
     }
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+	
+	DB.init();
+	//DB.executeStatement( 'CREATE TABLE IF NOT EXISTS LOGS (id unique, log)' );
+	//DB.executeStatement( 'INSERT INTO LOGS (id, log) VALUES (4, "bar")' );
   });
 })
 
