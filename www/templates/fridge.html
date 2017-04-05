@@ -11,13 +11,19 @@
     clicking an item will show its recipe.
     -->
 
-    <button class="button" ng-click="edit()">edit</button>
+<!--
+    <ul>
+      <li class="button button-full" ng-repeat="item in listInFridge">
+        {{item.name}} {{item.dateSaved}} <button class="button" ng-click="edit()">edit</button> </li>
+    </ul>
+-->
 
 
     <ul>
-      <li class="button button-full" ng-repeat="item in listInFridge">
-        {{item.name}} {{item.dateSaved}} </li>
+      <li ng-repeat="item in listInFridge">
+        <button class="button" >{{item.name}} {{item.dateSaved}}</button><button class="button" ng-click="edit()">edit</button> </li>
     </ul>
+
 
 
   </ion-content>

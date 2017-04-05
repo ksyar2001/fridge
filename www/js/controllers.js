@@ -29,12 +29,25 @@ angular.module('starter.controllers', [])
 
 .controller('recipeCtrl', function($scope, $state, $ionicHistory) {
 
+
+
   $scope.search = function () {
-    // disable the automatically created back button from state.go
-    // to keep the sidemenu accessible at all time
-    $ionicHistory.nextViewOptions({
-      disableBack: true
-    });
+     console.log("search");
+
+      // disable the automatically created back button from state.go
+      // to keep the sidemenu accessible at all time
+      $ionicHistory.nextViewOptions({
+        disableBack: true
+      });
+
+
+      //way to use the selected options
+     var x = document.getElementById("cuisine");
+     console.log("this is the thing :" + x.options[x.selectedIndex].text);
+
+
+
+
     $state.go('app.result')
   }
 
@@ -44,29 +57,97 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('favoriteCtrl', function($scope, $ionicLoading) {
+.controller('favoriteCtrl', function($rootScope, $scope, $ionicLoading, $state) {
+  // initial constants
+  $scope.button = "edit";
+  $scope.style = "color:black; background-color:Beige";
+  var mode = 0;
+
   // dummy favorite list
-  $scope.listOfFavorite = {};
+  $rootScope.listOfFavorite = {};
   var item1 = {};
+  item1.id = 0;
   item1.name = "dummy1";
   item1.dateSaved = "02/01/2016";
   var item2 = {};
+  item2.id = 1;
   item2.name = "dummy2";
   item2.dateSaved = "01/30/2017";
 
-  $scope.listOfFavorite[0] = item1;
-  $scope.listOfFavorite[1] = item2;
+  $rootScope.listOfFavorite[item1.name] = item1;
+  $rootScope.listOfFavorite[item2.name] = item2;
 
 
 
-  // print for testing
+  // edit button is switched between edit or done every time its clicked. it changes the appearence of the list
   $scope.edit = function () {
-    $ionicLoading.show({ template: 'editing!', noBackdrop: true, duration: 1000 });
+
+    switch(mode){
+      // regular mode   --> switch to edit mode.
+      case 0:
+        mode = 1;
+        $scope.style = "color:white; background-color:DimGray";
+        $scope.button = "done";
+        console.log("reg to edit mode");
+        break;
+
+        // edit mode  --> switch to regular mode.
+      case 1:
+        mode = 0;
+        $scope.style = "color:black; background-color:Beige";
+        $scope.button = "edit";
+        console.log("edit to reg mode");
+        break;
+
+      default:
+        $scope.style = "color:black; background-color:Beige";
+
+    }
   };
-  $scope.showRecipe = function (item) {
-    $ionicLoading.show({ template: 'Recipe showed!', noBackdrop: true, duration: 1000 });
+
+
+
+
+  $scope.clickOnList = function (item) {
+    // regular mode. clicking on it will lead to its recipe.
+    if (mode == 0) {
+      $state.go('app.favoriteRecipe' , {
+        'itemId' : item.name
+      })
+
+    }
+
+    // edit mode  clicking on a item will delete that item from the list.
+    if (mode == 1) {
+      delete $rootScope.listOfFavorite[item.name];
+
+    }
   }
 
+})
+
+
+
+
+.controller('favoriteRecipeCtrl', function($rootScope, $scope, $state, $stateParams, $ionicHistory) {
+
+  // button to go back to the favorite list
+  $scope.back = function () {
+    // disable the automatically created back button from state.go
+    // to keep the sidemenu accessible at all time
+    $ionicHistory.nextViewOptions({
+      disableBack: true
+    });
+    $state.go('app.favorite')
+  }
+
+
+
+  $scope.delete = function() {
+    delete $rootScope.listOfFavorite[$stateParams.itemId];
+
+    $state.go('app.favorite');
+  }
 })
 
 
@@ -96,15 +177,36 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('selectedRecipeCtrl', function($scope, $state, $ionicHistory) {
+.controller('selectedRecipeCtrl', function($scope, $rootScope, $state, $ionicHistory) {
+
+
+
+  // button to go back to previous result of search
   $scope.back = function () {
     // disable the automatically created back button from state.go
     // to keep the sidemenu accessible at all time
     $ionicHistory.nextViewOptions({
       disableBack: true
     });
-
     $state.go('app.result')
   }
 
+
+
+  // save the current recipe to the favorite list
+  // saves the date saved
+  $scope.save = function() {
+    var itemSaved = {};
+    var time = new Date();
+    var m = time.getMonth() + 1;
+    var d = time.getDate();
+    var y = time.getFullYear();
+
+    // save a dummy for testing
+    itemSaved.dateSaved = "" + m + "/" + d + "/" + y;
+    itemSaved.name = "addeddummy";
+    $rootScope.listOfFavorite[itemSaved.name] = itemSaved;
+
+    console.log("item saved");
+  }
 });
