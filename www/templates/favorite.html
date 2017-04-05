@@ -11,11 +11,12 @@
     clicking an item will show its recipe.
     -->
 
-  <button class="button" ng-click="edit()">edit</button>
+  <button class="button" ng-click="edit()">{{button}}</button>
 
+    <p>color is {{style}}</p>
 
     <ul>
-      <li class="button button-full" ng-repeat="item in listOfFavorite" ng-click="showRecipe(item)">
+      <li class="button button-full" ng-repeat="item in listOfFavorite" style={{style}} ng-click="clickOnList(item)">
         {{item.name}} {{item.dateSaved}} </li>
     </ul>
 

@@ -21,7 +21,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-	
+
 	DB.init();
 	//DB.executeStatement( 'CREATE TABLE IF NOT EXISTS LOGS (id unique, log)' );
 	//DB.executeStatement( 'INSERT INTO LOGS (id, log) VALUES (4, "bar")' );
@@ -94,6 +94,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       'menuContent': {
         templateUrl: 'templates/favorite.html',
         controller: 'favoriteCtrl'
+      }
+    }
+  })
+
+
+  .state('app.favoriteRecipe', {
+    url: '/favoriteRecipe',
+    params: {itemId:-1},
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/favoriteRecipe.html',
+        controller: 'favoriteRecipeCtrl'
       }
     }
   });
