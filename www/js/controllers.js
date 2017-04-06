@@ -5,6 +5,22 @@ angular.module('starter.controllers', [])
 // initial controllers that need to be edited or deleted.
 
 
+.controller('loginCtrl', function($scope,$rootScope,$ionicHistory,sharedUtils,$state,$ionicSideMenuDelegate) {
+  $rootScope.extras = false;  // For hiding the side bar and nav icon
+
+
+})
+
+
+.controller('signupCtrl', function($scope,$rootScope,sharedUtils,$ionicSideMenuDelegate,
+  $state,fireBaseData,$ionicHistory) {
+    $rootScope.extras = false; // For hiding the side bar and nav icon
+
+    $scope.signupEmail = function (formName, cred) {
+
+
+    }
+  })
 
 .controller('appCtrl', function($scope, $ionicModal, $timeout) {
 })
