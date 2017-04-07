@@ -1,7 +1,7 @@
 angular.module('starter.APIservices', [])
 
 .factory('APIService', function($http){
-	var header = {'X-Mashape-Key':'', 'Accept':'application/json'};
+	var header = {'X-Mashape-Key':'Vy8k8AFD4KmshIMbldoXn34WwUrip1vKDsWjsnpAbRHyCbIlO6', 'Accept':'application/json'};
 	var api_url = 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/';
 	var error = {};
 
