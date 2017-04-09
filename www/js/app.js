@@ -29,9 +29,9 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
 
   $rootScope.listInFridge = [];
   $rootScope.listOfFavorite = [];
-  dummyDBManager.init( DB, $rootScope.listInFridge, $rootScope.listOfFavorite );
+  dummyDBManager.init( DB, $rootScope.listInFridge, $rootScope.listOfFavorite);
+  // dummyDBManager.extract();
   // initializes the 2 lists with the content of DB
-  dummyDBManager.extract();
 });
 
   $ionicPlatform.on( "pause", function() {
