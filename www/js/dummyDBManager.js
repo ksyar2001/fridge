@@ -38,9 +38,19 @@ angular.module( 'starter.services' )
 			// _listOfFavorite[item1.id] = item1;
 			// _listOfFavorite[item2.id] = item2;
 			// need actual code that extracts from DB
-			_DB.executeStatement('SELECT * FROM FRIDGE', []).then(function success(data){
-				Debug.log(data);
-				_listInFridge[0] = data;
+			_DB.executeStatement('SELECT * FROM FRIDGE', []).then(function(data){
+				return new Promise(function(resolve, reject){
+					setTimeout(function(){
+					resolve(data);
+					Debug.log(data);
+				}, 1);
+				})
+				.then(function(data){
+					setTimeout(function(){
+						_listInFridge[0] = data;
+						Debug.log(data);
+					}, 1)
+				})
 			});
 			
 

@@ -98,7 +98,7 @@ angular.module( 'starter.services', [] )
 		this.executeStatement = function(sql, values) {
 			return $ionicPlatform.ready( function() {
 				return new Promise(function(resolve, reject) {
-					executeStatement(myDB, sql, values, resolve, reject);
+					return executeStatement(myDB, sql, values, resolve, reject);
 				})
 			});
 		}
