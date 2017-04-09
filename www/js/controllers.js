@@ -45,6 +45,7 @@ angular.module('starter.controllers', [])
     console.log("this is the thing :" + x.options[x.selectedIndex].text);
 
     // dummy search result list
+    /*
     var resultList = {};
     var item1 = {};
     item1.id = 12;
@@ -54,15 +55,15 @@ angular.module('starter.controllers', [])
     item2.name = "dummy2";
     resultList[0] = item1;
     resultList[1] = item2;
+    */
 
-    // YANG 
-    // Testing APIService
-    APIService.get_recipes_with_ingredients();
-    // YANG
+    // $state.go is in this method 
+    APIService.search_recipes( $scope.cuisine,"", "", false, "", false, 5, 0, "", $scope.type);
 
-    $state.go('app.result', { 'resultList' : resultList } );
+    /*
+    function(cuisine, diet, excludeingredients, instructionRequired, intolerances, limitLicense=false, number, offset=0, query, type){
+      */
   }
-  
 })
 
 
@@ -147,10 +148,8 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('resultCtrl', function($scope, $state, $ionicHistory, $stateParams) {
+.controller('resultCtrl', function($scope, $state, $ionicHistory) {
  
-  $scope.resultList = $stateParams.resultList;
-
   $scope.select = function () {
     // disable the automatically created back button from state.go
     // to keep the sidemenu accessible at all time
