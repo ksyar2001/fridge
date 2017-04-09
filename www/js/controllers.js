@@ -27,9 +27,11 @@ angular.module('starter.controllers', [])
 
 .controller('fridgeCtrl', function($scope, $rootScope) {
   $scope.listInFridge = $rootScope.listInFridge;
+  console.log($rootScope.listInFridge[0]);
 })
 
-.controller('recipeCtrl', function($scope, $state, $ionicHistory, APIService) {
+.controller('recipeCtrl', function($scope, $rootScope, $state, $ionicHistory, APIService) {
+
   $scope.search = function () {
     console.log("search");
 
@@ -44,21 +46,13 @@ angular.module('starter.controllers', [])
     var x = document.getElementById("cuisine");
     console.log("this is the thing :" + x.options[x.selectedIndex].text);
 
-    // dummy search result list
-    /*
-    var resultList = {};
-    var item1 = {};
-    item1.id = 12;
-    item1.name = "dummy1";
-    var item2 = {};
-    item2.id = 32;
-    item2.name = "dummy2";
-    resultList[0] = item1;
-    resultList[1] = item2;
-    */
-
     // $state.go is in this method 
-    APIService.search_recipes( $scope.cuisine,"", "", false, "", false, 5, 0, "", $scope.type);
+    APIService.search_recipes($scope.cuisine,"", "", false, "", false, 5, 0, "", $scope.type)
+    .then(function(result){
+      console.log(result);
+      $rootScope.resultList = result;
+      $state.go('app.result' );
+    });
 
     /*
     function(cuisine, diet, excludeingredients, instructionRequired, intolerances, limitLicense=false, number, offset=0, query, type){
