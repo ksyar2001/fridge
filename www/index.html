@@ -1,9 +1,11 @@
-<!DOCTYPE html>
+
 <html>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
+
+     <script src="lib/ionic/js/ionic.bundle.js"></script>
 
     <link rel="manifest" href="manifest.json">
 
@@ -23,13 +25,40 @@
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
 
+    <!-- Ionic Meterial Header-->
+	<script src="lib/ionic-material/dist/ionic.material.min.js"></script>
+	<script src="lib/ionicuirouter/ionicUIRouter.js"></script>
+	<link href="lib/ionic-material/dist/ionic.material.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=RobotoDraft%3A400%2C500%2C700%2C400italic" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+
+    <style type="text/css">
+          .platform-ios .manual-ios-statusbar-padding{
+            padding-top:20px;
+          }
+          .manual-remove-top-padding{
+            padding-top:0px;
+          }
+          .manual-remove-top-padding .scroll{
+            padding-top:0px !important;
+          }
+          ion-list.manual-list-fullwidth div.list, .list.card.manual-card-fullwidth {
+            margin-left:-10px;
+            margin-right:-10px;
+          }
+          ion-list.manual-list-fullwidth div.list > .item, .list.card.manual-card-fullwidth > .item {
+            border-radius:0px;
+            border-left:0px;
+            border-right: 0px;
+          }
+        </style>
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
-    <!-- debug configuration, remove when production -->	
+    <!-- debug configuration, remove when production -->
     <script src="js/debug_config.js"></script>
 
     <!-- your app's js -->
@@ -40,7 +69,37 @@
     <script src="js/app.js"></script>
   </head>
 
-  <body ng-app="starter">
-    <ion-nav-view></ion-nav-view>
+  <body ng-app="starter" animation="slide-left-right-ios7" >
+    <div style="">
+      <ion-nav-view>
+    </ion-nav-view>
+
+
+
+
+<!-- ============================================================================================================================================ -->
+
+
+
+
+
+
+
+
+  <!-- ============================================================================================================================================ -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   </body>
 </html>
