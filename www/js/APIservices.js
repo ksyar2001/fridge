@@ -1,6 +1,6 @@
 angular.module('starter.APIservices', [])
 
-.factory('APIService', function($http){
+.factory('APIService', function($http, $state, $rootScope){
 	var header = {'X-Mashape-Key':'Vy8k8AFD4KmshIMbldoXn34WwUrip1vKDsWjsnpAbRHyCbIlO6', 'Accept':'application/json'};
 	var api_url = 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/';
 	var error = {};
@@ -8,17 +8,30 @@ angular.module('starter.APIservices', [])
 	return {
 		//return list of recipes with their ids when searched by ingredients
 		get_recipes_with_ingredients : function(fillingredients, ingredients, limitLicense=false, number, ranking){
+
+			// default values for testing purpose
+			fillingredients = fillingredients || false;
+			ingredients = ingredients || [ "apples", "flour", "sugar" ];
+			limitLicense = limitLicense || false;
+			number = number || 5;
+			ranking = ranking || 1;
+			//queryParameters = queryParameters || null;
+
 			var url = api_url + 'findByIngredients';
 			var params = {fillingredients:fillingredients, ingredients:ingredients, 
 				limitLicense:limitLicense, number:number, ranking:ranking};
 			$http.get(url, {params:params, headers:header})
 			.then(function(response){
 				var web_response = angular.fromJson(response);
+				console.log( web_response.data );
+				$rootScope.resultList = web_response.data;
+				$state.go('app.result' );
 				return web_response;
 				//iterate response
 			})
 			.catch(function(data, status){
 				error[status] = data;
+				$state.go('app.result', { 'resultList' : [] } );
 				return error;
 			});
 
@@ -46,6 +59,9 @@ angular.module('starter.APIservices', [])
 			$http.get(url, {params:params, headers:header})
 			.then(function(response){
 				var web_response = angular.fromJson(response);
+				console.log( web_response.data.results );
+				$rootScope.resultList = web_response.data.results;
+				$state.go('app.result' );
 				return web_response;
 			})
 			.catch(function(data){
