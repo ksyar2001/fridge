@@ -81,9 +81,11 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
 
   .state('app.result', {
     url: '/result',
+    /*
     params: {
       resultList: null
     },
+    */
     views: {
       'menuContent': {
         templateUrl: 'templates/result.html',

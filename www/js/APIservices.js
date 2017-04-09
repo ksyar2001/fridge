@@ -1,6 +1,6 @@
 angular.module('starter.APIservices', [])
 
-.factory('APIService', function($http){
+.factory('APIService', function($http, $state, $rootScope){
 	var header = {'X-Mashape-Key':'Vy8k8AFD4KmshIMbldoXn34WwUrip1vKDsWjsnpAbRHyCbIlO6', 'Accept':'application/json'};
 	var api_url = 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/';
 	var error = {};
@@ -23,12 +23,15 @@ angular.module('starter.APIservices', [])
 			$http.get(url, {params:params, headers:header})
 			.then(function(response){
 				var web_response = angular.fromJson(response);
-				console.log( web_response );
+				console.log( web_response.data );
+				$rootScope.resultList = web_response.data;
+				$state.go('app.result' );
 				return web_response;
 				//iterate response
 			})
 			.catch(function(data, status){
 				error[status] = data;
+				$state.go('app.result', { 'resultList' : [] } );
 				return error;
 			});
 
@@ -56,6 +59,9 @@ angular.module('starter.APIservices', [])
 			$http.get(url, {params:params, headers:header})
 			.then(function(response){
 				var web_response = angular.fromJson(response);
+				console.log( web_response.data.results );
+				$rootScope.resultList = web_response.data.results;
+				$state.go('app.result' );
 				return web_response;
 			})
 			.catch(function(data){
