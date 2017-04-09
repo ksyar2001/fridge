@@ -6,7 +6,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'starter.APIservices'])
 
-.run(function($ionicPlatform, DB) {
+.run(function($ionicPlatform, $rootScope, DB, dummyDBManager ) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -25,7 +25,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 	DB.init();
 	//DB.executeStatement( 'CREATE TABLE IF NOT EXISTS LOGS (id unique, log)' );
 	//DB.executeStatement( 'INSERT INTO LOGS (id, log) VALUES (4, "bar")' );
-  });
+
+  $rootScope.listInFridge = [];
+  $rootScope.listOfFavorite = [];
+  dummyDBManager.init( DB, $rootScope.listInFridge, $rootScope.listOfFavorite );
+  // initializes the 2 lists with the content of DB
+  dummyDBManager.extract();
+});
+
+  $ionicPlatform.on( "pause", function() {
+      // updates DB with the 2 lists
+      dummyDBManager.update();
+  } );
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
@@ -69,6 +80,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
   .state('app.result', {
     url: '/result',
+    params: {
+      resultList: null
+    },
     views: {
       'menuContent': {
         templateUrl: 'templates/result.html',

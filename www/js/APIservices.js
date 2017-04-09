@@ -1,19 +1,29 @@
 angular.module('starter.APIservices', [])
 
 .factory('APIService', function($http){
-	var header = {'X-Mashape-Key':'', 'Accept':'application/json'};
+	var header = {'X-Mashape-Key':'Vy8k8AFD4KmshIMbldoXn34WwUrip1vKDsWjsnpAbRHyCbIlO6', 'Accept':'application/json'};
 	var api_url = 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/';
 	var error = {};
 
 	return {
 		//return list of recipes with their ids when searched by ingredients
 		get_recipes_with_ingredients : function(fillingredients, ingredients, limitLicense=false, number, ranking){
+
+			// default values for testing purpose
+			fillingredients = fillingredients || false;
+			ingredients = ingredients || [ "apples", "flour", "sugar" ];
+			limitLicense = limitLicense || false;
+			number = number || 5;
+			ranking = ranking || 1;
+			//queryParameters = queryParameters || null;
+
 			var url = api_url + 'findByIngredients';
 			var params = {fillingredients:fillingredients, ingredients:ingredients, 
 				limitLicense:limitLicense, number:number, ranking:ranking};
 			$http.get(url, {params:params, headers:header})
 			.then(function(response){
 				var web_response = angular.fromJson(response);
+				console.log( web_response );
 				return web_response;
 				//iterate response
 			})
