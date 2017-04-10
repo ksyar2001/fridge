@@ -7,7 +7,7 @@
 var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'starter.APIservices'])
 
 
-.run(function($ionicPlatform, $rootScope, DB, dummyDBManager ) {
+.run(function($ionicPlatform, $rootScope, DB, dummyDBManager, $ionicLoading ) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -24,15 +24,21 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
     }
 
 	DB.init();
-	//DB.executeStatement( 'CREATE TABLE IF NOT EXISTS LOGS (id unique, log)' );
-	//DB.executeStatement( 'INSERT INTO LOGS (id, log) VALUES (4, "bar")' );
-
+  
+  //Initialize Fridge with Database
   $rootScope.listInFridge = [];
   $rootScope.listOfFavorite = [];
   dummyDBManager.init( DB, $rootScope.listInFridge, $rootScope.listOfFavorite);
   dummyDBManager.extract();
-  console.log($rootScope.listInFridge);
-  // initializes the 2 lists with the content of DB
+  
+  //Show loading screen for DB wait
+  $ionicLoading.show({template: '<p class="item-icon-left">Initializing Database<ion-spinner icon="lines"/></p>'});
+  setTimeout(function() {
+    // console.log($rootScope.listInFridge);
+    // console.log($rootScope.listOfFavorite);
+    dummyDBManager.update();
+    $ionicLoading.hide();
+  }, 1500);
 });
 
   $ionicPlatform.on( "pause", function() {
