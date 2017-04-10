@@ -15,7 +15,7 @@ angular.module( 'starter.services', [] )
 			} else {
 				db.transaction(function(tx) {
 					tx.executeSql(sql, values, function(ignored, rs) {
-						Debug.log(rs);
+						// Debug.log(rs);
 						onsuccess(rs);
 					}, function(ignored, error) {
 						onerror(error);
@@ -67,6 +67,7 @@ angular.module( 'starter.services', [] )
 				},
 				commit: function() {
 					var mystatements;
+					Debug.log(statements);
 					if (!statements) {
 						throw new Error('Invalid state');
 					}
@@ -96,16 +97,12 @@ angular.module( 'starter.services', [] )
 		};
 
 		this.executeStatement = function(sql, values) {
-			return $ionicPlatform.ready( function() {
-				return new Promise(function(resolve, reject) {
-					return executeStatement(myDB, sql, values, resolve, reject);
-				})
+			return new Promise(function(resolve, reject) {
+				return executeStatement(myDB, sql, values, resolve, reject);
 			});
 		}
 		this.newBatchTransaction = function() {
-			$ionicPlatform.ready( function() {
-				return newBatchTransaction(myDB);
-			} );
-		}
+			return newBatchTransaction(myDB);
+		};
 	} );
 
