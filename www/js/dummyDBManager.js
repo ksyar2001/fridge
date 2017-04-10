@@ -1,4 +1,3 @@
-
 angular.module( 'starter.services' )
 	.service( 'dummyDBManager', function( $ionicPlatform, $rootScope ) {
 

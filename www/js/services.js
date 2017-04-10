@@ -15,7 +15,6 @@ angular.module( 'starter.services', [] )
 			} else {
 				db.transaction(function(tx) {
 					tx.executeSql(sql, values, function(ignored, rs) {
-						// Debug.log(rs);
 						onsuccess(rs);
 					}, function(ignored, error) {
 						onerror(error);
@@ -103,5 +102,5 @@ angular.module( 'starter.services', [] )
 		this.newBatchTransaction = function() {
 			return newBatchTransaction(myDB);
 		}
-	} );
+	});
 
