@@ -9,9 +9,9 @@ angular.module( 'starter.services' )
 			_listInFridge = listInFridge;
 			_listOfFavorite = listOfFavorite;
 
-			// DB.executeStatement('CREATE TABLE IF NOT EXISTS FRIDGE (name unique, quantity)');
-			// DB.executeStatement('CREATE TABLE IF NOT EXISTS FAVORITES (id unique, name, dateSaved)');
-			// DB.executeStatement('INSERT INTO FRIDGE (name, quantity) VALUES ("apple", 1)');
+			DB.executeStatement('CREATE TABLE IF NOT EXISTS FRIDGE (name unique, quantity)');
+			DB.executeStatement('CREATE TABLE IF NOT EXISTS FAVORITES (id unique, name, dateSaved)');
+			DB.executeStatement('INSERT INTO FRIDGE (name, quantity) VALUES ("apple", 1)');
 		}
 
 		this.extract = function(callback) {
@@ -38,20 +38,15 @@ angular.module( 'starter.services' )
 			// _listOfFavorite[item1.id] = item1;
 			// _listOfFavorite[item2.id] = item2;
 			// need actual code that extracts from DB
-			_DB.executeStatement('SELECT * FROM FRIDGE', []).then(function(data){
-				return new Promise(function(resolve, reject){
-					setTimeout(function(){
-					resolve(data);
-					Debug.log(data);
-				}, 1);
-				})
+			$ionicPlatform.ready( function() {
+				_DB.executeStatement('SELECT * FROM FRIDGE', [])
 				.then(function(data){
-					setTimeout(function(){
-						_listInFridge[0] = data;
-						Debug.log(data);
-					}, 1)
-				})
-			});
+					Debug.log(data);
+				}, function(error) {
+					Debug.log( error );
+				} );
+			} );			
+			
 			
 
 
