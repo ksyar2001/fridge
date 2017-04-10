@@ -67,7 +67,6 @@ angular.module( 'starter.services', [] )
 				},
 				commit: function() {
 					var mystatements;
-					Debug.log(statements);
 					if (!statements) {
 						throw new Error('Invalid state');
 					}
@@ -103,6 +102,6 @@ angular.module( 'starter.services', [] )
 		}
 		this.newBatchTransaction = function() {
 			return newBatchTransaction(myDB);
-		};
+		}
 	} );
 
