@@ -1,30 +1,69 @@
+
+
 <ion-view view-title="fridge">
-  <ion-content>
 
 
-    <p>list of items in fridge</p>
-    <p>need to find a list with +, - or edit</p>
+  <div class="bar bar-subheader item-input-inset bar-light">
+    <label class="item-input-wrapper">
+      <i class="icon ion-search placeholder-icon"></i>
+      <input ng-model="query" type="search" placeholder="Search">
+    </label>
+  </div>
+
+  <ion-content class="has-subheader">
+
+
+    
+    <button class="button button-icon ion-minus-circled"
+    ng-click="data.showDelete = !data.showDelete; data.showReorder = false;"></button>
+
+    <button class="button button-icon ion-navicon"
+    ng-click="data.showReorder = !data.showReorder; data.showDelete = false;"></button>
+
 
 
     <!--
-    ng-repeat user saved item in the list of favorite
-    clicking an item will show its recipe.
-    -->
+    <p>list of items in fridge</p>
+    <p>need to find a list with +, - or edit</p>
+  -->
+
+
+      <ion-list show-delete="data.showDelete" show-reorder="data.showReorder">
+          <!-- Show icon in left position: item-icon-left -->
+        <ion-item ng-repeat="item in artists | filter:query" class="item-thumbnail-left item-icon-right item-text-wrap">
+          <img ng-src="{{item.img}}" alt="{{item.name}} Photo">
+          <h2>{{item.name}}</h2>
+          <h3>{{item.lastname}}</h3>
+          <p>{{item.description | limitTo: 100}}{{item.description.length > 100 ? '&hellip;':''}}</p>
+
+
+          </ion-item>
+
+        </ion-list>
+
+
+
+  <!--
+  ng-repeat user saved item in the list of favorite
+  clicking an item will show its recipe.
+-->
 
 <!--
-    <ul>
-      <li class="button button-full" ng-repeat="item in listInFridge">
-        {{item.name}} {{item.dateSaved}} <button class="button" ng-click="edit()">edit</button> </li>
-    </ul>
+<ul>
+<li class="button button-full" ng-repeat="item in listInFridge">
+{{item.name}} {{item.dateSaved}} <button class="button" ng-click="edit()">edit</button> </li>
+</ul>
 -->
 
 
-    <ul>
-      <li ng-repeat="item in listInFridge">
-        <button class="button" >{{item.name}} {{item.dateSaved}}</button><button class="button" ng-click="edit()">edit</button> </li>
-    </ul>
+
+
+<ul>
+  <li ng-repeat="item in listInFridge">
+    <button class="button" >{{item.name}} {{item.dateSaved}}</button><button class="button" ng-click="edit()">edit</button> </li>
+  </ul>
 
 
 
-  </ion-content>
+</ion-content>
 </ion-view>

@@ -25,10 +25,42 @@ angular.module('starter.controllers', [])
 .controller('appCtrl', function($scope, $ionicModal, $timeout) {
 })
 
-.controller('fridgeCtrl', function($scope, $rootScope) {
-  $scope.listInFridge = $rootScope.listInFridge;
-  console.log($rootScope.listInFridge[0]);
-})
+.controller('fridgeCtrl',['$scope', '$http', function($scope, $http, $rootScope) {
+  // $scope.listInFridge = $rootScope.listInFridge;
+  // console.log($rootScope.listInFridge[0]);
+
+
+// form of listInFridge would be similar to
+  var data = [
+    {
+    "name": "Onion",
+    "lastname": "half-sliced",
+    "img": "http://lorempixel.com/400/200/",
+    "description": "What can I do with this onion?\r\n"
+    },
+    {
+      "name": "Baby Carrot",
+      "lastname": "A lot",
+      "img": "http://lorempixel.com/400/200/",
+      "description": "What can I do with this baby carrot?\r\n"
+    },
+    {
+      "name": "Pizza",
+      "lastname": "A slice",
+      "img": "http://lorempixel.com/400/200/",
+      "description": "What can I do with this pizza?\r\n"
+    }
+  ]
+
+$scope.artists = data;
+$scope.moveItem = function(item, fromIndex, toIndex) {
+$scope.artists.splice(fromIndex,1);
+$scope.artists.splice(toIndex,0,item);
+};
+
+
+
+}])
 
 .controller('recipeCtrl', function($scope, $rootScope, $state, $ionicHistory, APIService) {
 
@@ -46,7 +78,7 @@ angular.module('starter.controllers', [])
     var x = document.getElementById("cuisine");
     console.log("this is the thing :" + x.options[x.selectedIndex].text);
 
-    // $state.go is in this method 
+    // $state.go is in this method
     APIService.search_recipes($scope.cuisine,"", "", false, "", false, 5, 0, "", $scope.type)
     .then(function(result){
       console.log(result);
@@ -143,7 +175,7 @@ angular.module('starter.controllers', [])
 
 
 .controller('resultCtrl', function($scope, $state, $ionicHistory) {
- 
+
   $scope.select = function () {
     // disable the automatically created back button from state.go
     // to keep the sidemenu accessible at all time
