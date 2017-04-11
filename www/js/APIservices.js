@@ -1,24 +1,32 @@
 angular.module('starter.APIservices', [])
 
-.factory('APIService', function($http){
-	var header = {'X-Mashape-Key':'', 'Accept':'application/json'};
+.factory('APIService', function($http, $state, $rootScope, $q){
+	var header = {'X-Mashape-Key':'Vy8k8AFD4KmshIMbldoXn34WwUrip1vKDsWjsnpAbRHyCbIlO6', 'Accept':'application/json'};
 	var api_url = 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/';
 	var error = {};
 
 	return {
 		//return list of recipes with their ids when searched by ingredients
 		get_recipes_with_ingredients : function(fillingredients, ingredients, limitLicense=false, number, ranking){
+
+			// default values for testing purpose
+			fillingredients = fillingredients || false;
+			ingredients = ingredients || [ "apples", "flour", "sugar" ];
+			limitLicense = limitLicense || false;
+			number = number || 5;
+			ranking = ranking || 1;
+			//queryParameters = queryParameters || null;
+
 			var url = api_url + 'findByIngredients';
 			var params = {fillingredients:fillingredients, ingredients:ingredients, 
 				limitLicense:limitLicense, number:number, ranking:ranking};
-			$http.get(url, {params:params, headers:header})
+			return $http.get(url, {params:params, headers:header})
 			.then(function(response){
-				var web_response = angular.fromJson(response);
-				return web_response;
-				//iterate response
+				return response.data;
 			})
 			.catch(function(data, status){
 				error[status] = data;
+				$state.go('app.result', { 'resultList' : [] } );
 				return error;
 			});
 
@@ -27,10 +35,9 @@ angular.module('starter.APIservices', [])
 		get_recipe_detail : function(id){
 			var url = api_url + id + '/analyzedInstructions';
 			var params = {stepsBreakdown:true};
-			$http.get(url, {params:params, headers:header})
+			return $http.get(url, {params:params, headers:header})
 			.then(function(response){
-				var web_response = angular.fromJson(response);
-				return web_response;
+				return response.data;
 			})
 			.catch(function(data, status){
 				error[status] = data;
@@ -43,10 +50,9 @@ angular.module('starter.APIservices', [])
 			var url = api_url + 'search'
 			var params = {cuisine:cuisine, diet:diet, excludeingredients:excludeingredients, instructionRequired:instructionRequired, 
 				intolerances:intolerances, limitLicense:limitLicense, number:number, offset:offset, query:query, type:type};
-			$http.get(url, {params:params, headers:header})
+			return $http.get(url, {params:params, headers:header})
 			.then(function(response){
-				var web_response = angular.fromJson(response);
-				return web_response;
+				return response.data.results;
 			})
 			.catch(function(data){
 				error[status] = data;
