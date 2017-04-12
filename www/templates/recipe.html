@@ -1,22 +1,23 @@
 <ion-view view-title="search recipe">
-  <br>
+  
+  <br />
 
 
     <h2>meal type</h2>
-    <select name="type">
-      <option value="appetizer">Appetizer/Snack</option>
+    <select name="type" ng-model="type">
+      <option value="appetizer" selected>Appetizer</option>
       <option value="breakfast">Breakfast</option>
-      <option value="lunch">Lunch</option>
-      <option value="dinner">Dinner</option>
+      <option value="side dish">Side Dish</option>
+      <option value="main course">Main Course</option>
     </select>
-    </br>
+    <br>
 
 
     <h2>world cuisine</h2>
-    <select id="cuisine">
-      <option value="american">American</option>
-      <option value="asian">Asian</option>
-      <option value="mediterranean">Mediterranean</option>
+    <select id="cuisine" ng-model="cuisine">
+      <option value="american" selected="selected">American</option>
+      <option value="korean">Korean</option>
+      <option value="greek">Greek</option>
       <option value="italian">Italian</option>
     </select>
 

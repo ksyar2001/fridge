@@ -11,13 +11,13 @@ angular.module( 'starter.services', [] )
 
 		executeStatement = function(db, sql, values, onsuccess, onerror) {
 			if (!!db.executeSql) {
-				return db.executeSql(sql, values || [], onsuccess, onerror);
+				db.executeSql(sql, values || [], onsuccess, onerror);
 			} else {
-				return db.transaction(function(tx) {
-					return tx.executeSql(sql, values, function(ignored, rs) {
-						return onsuccess(rs);
+				db.transaction(function(tx) {
+					tx.executeSql(sql, values, function(ignored, rs) {
+						onsuccess(rs);
 					}, function(ignored, error) {
-						return onerror(error);
+						onerror(error);
 					});
 				});
 			}
@@ -95,16 +95,12 @@ angular.module( 'starter.services', [] )
 		};
 
 		this.executeStatement = function(sql, values) {
-			$ionicPlatform.ready( function() {
-				return new Promise(function(resolve, reject) {
-					return executeStatement(myDB, sql, values, resolve, reject);
-				});
-			} );
+			return new Promise(function(resolve, reject) {
+				return executeStatement(myDB, sql, values, resolve, reject);
+			});
 		}
 		this.newBatchTransaction = function() {
-			$ionicPlatform.ready( function() {
-				return newBatchTransaction(myDB);
-			} );
+			return newBatchTransaction(myDB);
 		}
-	} );
+	});
 
