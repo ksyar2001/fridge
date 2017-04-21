@@ -27,7 +27,7 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
   
   //Initialize Fridge with Database
   $rootScope.listInFridge = [];
-  $rootScope.listOfFavorite = [];
+  $rootScope.listOfFavorite = {};
   dummyDBManager.init( DB, $rootScope.listInFridge, $rootScope.listOfFavorite);
   dummyDBManager.extract();
   
@@ -46,10 +46,13 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
       dummyDBManager.update();
   } );
 })
-
+/*
+.config( function( $compileProvider ) {
+  $compileProvider.imgSrcSanitizationWhitelist('*.jpg');
+})
+*/
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
-
    .state('app', {
       url: '/app',
       abstract: true,
