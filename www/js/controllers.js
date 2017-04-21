@@ -36,28 +36,28 @@ angular.module('starter.controllers', [])
   var data = [
     {
     "name": "Onion",
-    "lastname": "half-sliced",
+    "quantity": "half-sliced",
     "img": "http://lorempixel.com/400/200/",
     "description": "What can I do with this onion?\r\n"
     },
     {
       "name": "Baby Carrot",
-      "lastname": "A lot",
+      "quantity": "A lot",
       "img": "http://lorempixel.com/400/200/",
       "description": "What can I do with this baby carrot?\r\n"
     },
     {
       "name": "Pizza",
-      "lastname": "A slice",
+      "quantity": "A slice",
       "img": "http://lorempixel.com/400/200/",
       "description": "What can I do with this pizza?\r\n"
     }
   ]
 
   var compareFunc = function( a, b ) {
-    return a.name.localeCompare( b.name, 'en', { 'sensitivity': 'base' } ); 
+    return a.name.localeCompare( b.name, 'en', { 'sensitivity': 'base' } );
   };
-  
+
 
   data.sort( compareFunc );
   $scope.artists = data;
@@ -66,21 +66,21 @@ angular.module('starter.controllers', [])
   //$scope.artists.splice(toIndex,0,item);
 
   $scope.onAdd = function( name, amount, description ) {
-    data.push( { "name":name, "lastname":amount, "description":description } );
+    data.push( { "name":name, "quantity":amount, "description":description } );
     data.sort( compareFunc );
   };
 
   $scope.onDelete = function( index ) {
     data.splice( index, 1 );
-  } 
-  
+  }
+
   $scope.onSearchRecipe = function( ) {
 	if( data.length > 0 ) {
 		var ingredients = data[ 0 ].name;
-		for( int i = 1; i < data.length; ++i ) {
+		for( var i = 1; i < data.length; ++i ) {
 			ingredients += "," + data[ i ].name;
 		}
-		
+
 		//get_recipes_with_ingredients : function(fillingredients, ingredients, limitLicense=false, number, ranking){
 		APIService.get_recipes_with_ingredients( true, ingredients, false, 5, 2 )
 		.then( function( result ) {
@@ -88,10 +88,10 @@ angular.module('starter.controllers', [])
 			$rootScope.resultList = result;
 			$state.go('app.result' );
 		} );
-		  
+
 	 }
   }
-};
+
 
 }])
 
@@ -246,7 +246,7 @@ angular.module('starter.controllers', [])
   //var imgURL = "http://lorempixel.com/400/200/";
   //var imgURL = "https://spoonacular.com/recipeImages/579247-556x370.jpg";
   console.log( imgURL );
-  
+
   // button to go back to previous result of search
   $scope.back = function () {
     // disable the automatically created back button from state.go
@@ -263,7 +263,7 @@ angular.module('starter.controllers', [])
   // saves the date saved
   $scope.save = function() {
     var itemSaved = $rootScope.selectedRecipe;
-    
+
     if( $rootScope.listOfFavorite.hasOwnProperty ( itemSaved.id ) ) {
       alert( "Already added" );
       return;
@@ -271,7 +271,7 @@ angular.module('starter.controllers', [])
 
     var time = new Date();
     var m = time.getMonth() + 1;
-    var d = time.getDate(); 
+    var d = time.getDate();
     var y = time.getFullYear();
 
     itemSaved.dateSaved = "" + m + "/" + d + "/" + y;
