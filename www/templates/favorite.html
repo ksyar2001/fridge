@@ -16,8 +16,8 @@
     <p>color is {{style}}</p>
 
     <ul>
-      <li class="button button-full" ng-repeat="item in listOfFavorite" style={{style}} ng-click="clickOnList(item)">
-        {{item.name}} {{item.dateSaved}} </li>
+      <li class="button button-full" ng-repeat="item in listOfFavorite" style={{style}} ng-click="clickOnList($index)">
+        {{item.title}} {{item.dateSaved}} </li>
     </ul>
 
 

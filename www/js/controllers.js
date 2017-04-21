@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['ionic'])
 
 
 
@@ -22,15 +22,22 @@ angular.module('starter.controllers', [])
     }
   })
 
-.controller('appCtrl', function($scope, $ionicModal, $timeout) {
+.controller('menuCtrl', function($scope, $ionicModal, $timeout) {
+
 })
 
-.controller('fridgeCtrl',['$scope', '$http', function($scope, $http, $rootScope) {
-  // $scope.listInFridge = $rootScope.listInFridge;
-  // console.log($rootScope.listInFridge[0]);
+.controller('fridgeCtrl', function($scope, $http, $rootScope, $ionicLoading) {
+  $ionicLoading.show(
+    {
+      template: '<p class="item-icon-left">Initializing Fridge<ion-spinner icon="lines"/></p>'
+    }
+  );
 
+  while( $rootScope.isFridgeReady == false ) {
+    console.log( "waiting" );
+  }
 
-
+  $ionicLoading.hide();
 
 // form of listInFridge would be similar to
   var data = [
@@ -75,7 +82,7 @@ angular.module('starter.controllers', [])
   } 
 };
 
-}])
+})
 
 .controller('recipeCtrl', function($scope, $rootScope, $state, $ionicHistory, APIService) {
 
@@ -111,7 +118,20 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('favoriteCtrl', function($rootScope, $scope, $ionicLoading, $state) {
+.controller('favoriteCtrl', function($rootScope, $scope, $ionicLoading, $state, $ionicHistory, APIService ) {
+
+  $ionicLoading.show(
+    {
+      template: '<p class="item-icon-left">Initializing Favorite<ion-spinner icon="lines"/></p>'
+    }
+  );
+
+  while( $rootScope.isFavReady == false ) {
+    console.log( "waiting" );
+  }
+
+  $ionicLoading.hide();
+
   // initial constants
   $scope.button = "edit";
   $scope.style = "color:black; background-color:Beige";
@@ -143,16 +163,19 @@ angular.module('starter.controllers', [])
     }
   };
 
-
-
-
-  $scope.clickOnList = function (item) {
+  $scope.clickOnList = function ( index ) {
     // regular mode. clicking on it will lead to its recipe.
     if (mode == 0) {
-      $state.go('app.favoriteRecipe' , {
-        'itemId' : item.id
-      })
-
+      $rootScope.selectedRecipe = $rootScope.listOfFavorite[ index ];
+      $ionicHistory.nextViewOptions({
+        disableBack: true
+      });
+      APIService.get_recipe_detail( $rootScope.selectedRecipe.id )
+      .then( function( result ) {
+        console.log( result );
+        $rootScope.recipeDetails = result;
+        $state.go('app.favoriteRecipe')
+      });
     }
 
     // edit mode  clicking on a item will delete that item from the list.
@@ -224,7 +247,7 @@ angular.module('starter.controllers', [])
 
 
 
-  var imgURL = "https://spoonacular.com/recipeImages/" + $rootScope.selectedRecipe.id + "-312x150.jpg";
+  var imgURL = "http://spoonacular.com/recipeImages/" + $rootScope.selectedRecipe.id + "-312x150.jpg";
   //var imgURL = "http://lorempixel.com/400/200/";
   //var imgURL = "https://spoonacular.com/recipeImages/579247-556x370.jpg";
   console.log( imgURL );

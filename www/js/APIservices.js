@@ -50,6 +50,7 @@ angular.module('starter.APIservices', [])
 			var url = api_url + 'search'
 			var params = {cuisine:cuisine, diet:diet, excludeingredients:excludeingredients, instructionRequired:instructionRequired, 
 				intolerances:intolerances, limitLicense:limitLicense, number:number, offset:offset, query:query, type:type};
+			console.log( params );
 			return $http.get(url, {params:params, headers:header})
 			.then(function(response){
 				return response.data.results;
