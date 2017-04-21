@@ -13,7 +13,7 @@
   <ion-content class="has-subheader">
 
 
-
+    
     <button class="button button-icon ion-minus-circled"
     ng-click="data.showDelete = !data.showDelete; data.showReorder = false;"></button>
 
@@ -28,7 +28,7 @@
   -->
 
 
-      <ion-list show-delete="data.showDelete" show-reorder="data.showReorder" can-swipte="true">
+      <ion-list show-delete="data.showDelete" show-reorder="data.showReorder">
           <!-- Show icon in left position: item-icon-left -->
         <ion-item ng-repeat="item in artists | filter:query" class="item-thumbnail-left item-icon-right item-text-wrap">
           <img ng-src="{{item.img}}" alt="{{item.name}} Photo">
