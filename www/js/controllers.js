@@ -25,7 +25,7 @@ angular.module('starter.controllers', [])
 .controller('appCtrl', function($scope, $ionicModal, $timeout) {
 })
 
-.controller('fridgeCtrl',['$scope', '$http', function($scope, $http, $rootScope, APIService) {
+.controller('fridgeCtrl',['$scope', '$http', function($scope, $http, $rootScope, APIService, $ionicModal) {
   // $scope.listInFridge = $rootScope.listInFridge;
   // console.log($rootScope.listInFridge[0]);
 
@@ -60,7 +60,7 @@ angular.module('starter.controllers', [])
 
 
   data.sort( compareFunc );
-  $scope.artists = data;
+  $scope.fridgeList = data;
   //$scope.moveItem = function(item, fromIndex, toIndex) {
   //$scope.artists.splice(fromIndex,1);
   //$scope.artists.splice(toIndex,0,item);
@@ -91,6 +91,21 @@ angular.module('starter.controllers', [])
 
 	 }
   }
+
+  $scope.modalShow = function() {
+    $ionicModal.fromTemplate('<ion-modal-view><ion-header-bar class="bar-positive"><h1 class="title">Modal form</h1></ion-header-bar><ion-content class="padding"><p style="text-align: center;">Please use shift + tab a few times and notice you\'ll be able to access the form below the modal.</p><form role="form"><ion-list><label class="item item-input" ion-item><input type="text" placeholder="Modal value" /></label></ion-list></form></ion-content></ion-modal-view>').show();
+  };
+
+  // $ionicModal.fromTemplateUrl('templates/modal.html', {
+  //   scope: $scope
+  // }).then(function(modal) {
+  //   $scope.modal = modal;
+  // });
+
+  // $scope.createContact = function(u) {
+  //   //$scope.contacts.push({ name: u.firstName + ' ' + u.lastName });
+  //   $scope.modal.hide();
+  // };
 
 
 }])
