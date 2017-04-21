@@ -25,7 +25,6 @@ angular.module('starter.controllers', ['ionic'])
 .controller('menuCtrl', function($scope, $ionicModal, $timeout) {
 
 })
-
 .controller('fridgeCtrl', function($scope, $http, $rootScope, $ionicLoading) {
   $ionicLoading.show(
     {
@@ -68,9 +67,9 @@ angular.module('starter.controllers', ['ionic'])
 
   data.sort( compareFunc );
   $scope.artists = data;
-  $scope.moveItem = function(item, fromIndex, toIndex) {
-  $scope.artists.splice(fromIndex,1);
-  $scope.artists.splice(toIndex,0,item);
+  //$scope.moveItem = function(item, fromIndex, toIndex) {
+  //$scope.artists.splice(fromIndex,1);
+  //$scope.artists.splice(toIndex,0,item);
 
   $scope.onAdd = function( name, amount, description ) {
     data.push( { "name":name, "lastname":amount, "description":description } );
@@ -80,6 +79,24 @@ angular.module('starter.controllers', ['ionic'])
   $scope.onDelete = function( index ) {
     data.splice( index, 1 );
   } 
+  
+  $scope.onSearchRecipe = function( ) {
+	if( data.length > 0 ) {
+		var ingredients = data[ 0 ].name;
+		for( int i = 1; i < data.length; ++i ) {
+			ingredients += "," + data[ i ].name;
+		}
+		
+		//get_recipes_with_ingredients : function(fillingredients, ingredients, limitLicense=false, number, ranking){
+		APIService.get_recipes_with_ingredients( true, ingredients, false, 5, 2 )
+		.then( function( result ) {
+			console.log(result);
+			$rootScope.resultList = result;
+			$state.go('app.result' );
+		} );
+		  
+	 }
+  }
 };
 
 })
