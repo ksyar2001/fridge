@@ -5,23 +5,25 @@ angular.module( 'starter.services' )
 		var initial_DB_Fridge = []; 
 		var initial_DB_Favorite = [];
 
-		$rootScope.isFridgeReady = false;
-		$rootScope.isFavReady  = false;
+		
 		
 		this.init = function( DB, listInFridge, listOfFavorite ) {
+
+			$rootScope.isFridgeReady = false;
+			$rootScope.isFavReady  = false;
+
 			$ionicPlatform.ready(function(){
 				_DB = DB;
 				_listInFridge = listInFridge;
 				_listOfFavorite = listOfFavorite;
-				$rootScope.isInitialized = false;
 
 			 _DB.executeStatement('DROP TABLE FRIDGE');
 			 _DB.executeStatement('DROP TABLE FAVORITES');
 
 			_DB.executeStatement('CREATE TABLE IF NOT EXISTS FRIDGE (name unique, quantity)');
 			_DB.executeStatement('CREATE TABLE IF NOT EXISTS FAVORITES (id unique, title, dateSaved DATETIME)');
-			// DB.executeStatement('INSERT INTO FRIDGE (name, quantity) VALUES ("apple", 1)');
-			// DB.executeStatement('INSERT INTO FRIDGE (name, quantity) VALUES ("pear", 1)');
+			 DB.executeStatement('INSERT INTO FRIDGE (name, quantity) VALUES ("apple", 1)');
+			 DB.executeStatement('INSERT INTO FRIDGE (name, quantity) VALUES ("pear", 1)');
 			 _DB.executeStatement('INSERT INTO FAVORITES (id, title, dateSaved) VALUES (?,?,?)', ["1", "Sushi", new Date()]);
 			 //_DB.executeStatement('UPDATE FRIDGE SET quantity=? WHERE name = "apple"', ['45']);
 			});

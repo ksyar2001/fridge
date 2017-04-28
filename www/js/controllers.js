@@ -25,7 +25,13 @@ angular.module('starter.controllers', ['ionic'])
 .controller('menuCtrl', function($scope, $ionicModal, $timeout) {
 
 })
-.controller('fridgeCtrl', function($scope, $http, $rootScope, $ionicLoading) {
+.controller('fridgeCtrl', function($scope, $http, $rootScope, $ionicLoading, $ionicModal, dummyDBManager) {
+
+  if( !$rootScope.isFridgeReady && $rootScope.isFridgeReady != false ) {
+    $state.go( 'app' );
+  }
+
+
   $ionicLoading.show(
     {
       template: '<p class="item-icon-left">Initializing Fridge<ion-spinner icon="lines"/></p>'
@@ -39,6 +45,7 @@ angular.module('starter.controllers', ['ionic'])
   $ionicLoading.hide();
 
 // form of listInFridge would be similar to
+
   var data = [
     {
     "name": "Onion",
@@ -64,20 +71,36 @@ angular.module('starter.controllers', ['ionic'])
     return a.name.localeCompare( b.name, 'en', { 'sensitivity': 'base' } );
   };
 
+  console.log( $rootScope.listInFridge );
 
-  data.sort( compareFunc );
-  $scope.fridgeList = data;
+
+  //data.sort( compareFunc );
+  //$scope.fridgeList = data;
   //$scope.moveItem = function(item, fromIndex, toIndex) {
   //$scope.artists.splice(fromIndex,1);
   //$scope.artists.splice(toIndex,0,item);
 
   $scope.onAdd = function( name, amount, description ) {
-    data.push( { "name":name, "quantity":amount, "description":description } );
-    data.sort( compareFunc );
+
+    // default for testing
+    name = name || "test";
+    amount = amount || 3;
+    description = description || "test case";
+
+    $rootScope.listInFridge.push( { "name":name, "quantity":amount, "description":description } );
+    $rootScope.listInFridge.sort( compareFunc );
+    dummyDBManager.update();
+    console.log( $rootScope.listInFridge );
   };
 
   $scope.onDelete = function( index ) {
-    data.splice( index, 1 );
+
+    // default for testing
+    index = index || ( data.length - 1 );
+
+    $rootScope.listInFridge.splice( index, 1 );
+    dummyDBManager.update();
+    console.log( $rootScope.listInFridge );
   }
 
   $scope.onSearchRecipe = function( ) {
@@ -93,6 +116,7 @@ angular.module('starter.controllers', ['ionic'])
 			console.log(result);
 			$rootScope.resultList = result;
 			$state.go('app.result' );
+
 		} );
 
 	 }
@@ -151,6 +175,10 @@ angular.module('starter.controllers', ['ionic'])
 
 
 .controller('favoriteCtrl', function($rootScope, $scope, $ionicLoading, $state, $ionicHistory, APIService ) {
+
+  if( !$rootScope.isFavReady && $rootScope.isFavReady != false) {
+    $state.go( 'app' );
+  }
 
   $ionicLoading.show(
     {
@@ -213,7 +241,7 @@ angular.module('starter.controllers', ['ionic'])
     // edit mode  clicking on a item will delete that item from the list.
     if (mode == 1) {
       delete $rootScope.listOfFavorite[item.id.toString()];
-
+      dummyDBManager.update();
     }
   }
 
@@ -241,6 +269,8 @@ angular.module('starter.controllers', ['ionic'])
 
     console.log( $stateParams.itemId );
     console.log( $rootScope.listOfFavorite );
+
+    dummyDBManager.update();
 
     $state.go('app.favorite');
   }
