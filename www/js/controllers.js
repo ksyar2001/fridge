@@ -275,7 +275,7 @@ angular.module('starter.controllers', ['ionic'])
 })
 
 
-.controller('selectedRecipeCtrl', function($scope, $rootScope, $state, $ionicHistory) {
+.controller('selectedRecipeCtrl', function($scope, $rootScope, $state, $ionicHistory, dummyDBManager) {
 
 
 
@@ -311,11 +311,14 @@ angular.module('starter.controllers', ['ionic'])
     var d = time.getDate();
     var y = time.getFullYear();
 
-    itemSaved.dateSaved = "" + m + "/" + d + "/" + y;
+    //itemSaved.dateSaved = "" + m + "/" + d + "/" + y;
+    itemSaved.dateSaved = time;
     $rootScope.listOfFavorite[itemSaved.id] = itemSaved;
 
     alert( "Saved" );
     console.log( itemSaved );
     console.log( $rootScope.listOfFavorite );
+
+    dummyDBManager.update();
   }
 });

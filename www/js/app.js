@@ -40,11 +40,12 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
 //     $ionicLoading.hide();
 //   }, 1500);
  });
-
+/*
   $ionicPlatform.on( "pause", function() {
       // updates DB with the 2 lists
       dummyDBManager.update();
   } );
+  */
 })
 /*
 .config( function( $compileProvider ) {
