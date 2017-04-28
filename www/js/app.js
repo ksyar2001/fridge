@@ -24,13 +24,13 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
     }
 
 	DB.init();
-  
+
   //Initialize Fridge with Database
   $rootScope.listInFridge = [];
   $rootScope.listOfFavorite = {};
   dummyDBManager.init( DB, $rootScope.listInFridge, $rootScope.listOfFavorite);
   dummyDBManager.extract();
-  
+
   //Show loading screen for DB wait
   $ionicLoading.show({template: '<p class="item-icon-left">Initializing Database<ion-spinner icon="lines"/></p>'});
   setTimeout(function() {
@@ -121,6 +121,16 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
       'menuContent': {
         templateUrl: 'templates/favorite.html',
         controller: 'favoriteCtrl'
+      }
+    }
+  })
+
+  .state('app.modal', {
+    url: '/modal',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/modal.html',
+        controller: 'modalCtrl'
       }
     }
   })
