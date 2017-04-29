@@ -1,5 +1,3 @@
-
-
 <ion-view view-title="fridge">
 
 
@@ -12,6 +10,11 @@
 
 
   <ion-content class="has-subheader">
+
+
+
+     <button class="button" ng-click="onAdd()">add</button>
+     <button class="button" ng-click="onDelete()">del</button>
 
 
   <div align="center" width="100" height="100">
@@ -35,7 +38,7 @@
     <!-- Show icon in left position: item-icon-left -->
 
     <ion-item-sliding>
-      <ion-item ng-repeat="item in fridgeList | filter:query" class="item-thumbnail-left item-icon-right item-text-wrap">
+      <ion-item ng-repeat="item in listInFridge | filter:query" class="item-thumbnail-left item-icon-right item-text-wrap">
 
         <img ng-src="{{item.img}}" alt="{{item.name}} Photo">
         <h2>{{item.name}}</h2>

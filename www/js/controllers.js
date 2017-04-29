@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['ionic'])
 
 
 
@@ -22,11 +22,18 @@ angular.module('starter.controllers', [])
     }
   })
 
-.controller('appCtrl', function($scope, $ionicModal, $timeout) {
+.controller('menuCtrl', function($scope, $ionicModal, $timeout) {
+
 })
+.controller('fridgeCtrl', function($scope, $http, $rootScope, $ionicLoading, $ionicModal, dummyDBManager) {
+
+  if( !$rootScope.isFridgeReady && $rootScope.isFridgeReady != false ) {
+    $state.go( 'app' );
+  }
+
 
 .controller('modalCtrl', function($scope, $ionicModal, $timeout) {
-  
+
 })
 
 .controller('fridgeCtrl',['$scope', '$state', '$http', function($scope, $state, $http, $rootScope, APIService, $ionicModal) {
@@ -34,9 +41,20 @@ angular.module('starter.controllers', [])
   // console.log($rootScope.listInFridge[0]);
 
 
+  $ionicLoading.show(
+    {
+      template: '<p class="item-icon-left">Initializing Fridge<ion-spinner icon="lines"/></p>'
+    }
+  );
 
+  while( $rootScope.isFridgeReady == false ) {
+    console.log( "waiting" );
+  }
+
+  $ionicLoading.hide();
 
 // form of listInFridge would be similar to
+
   var data = [
     {
     "name": "Onion",
@@ -62,20 +80,36 @@ angular.module('starter.controllers', [])
     return a.name.localeCompare( b.name, 'en', { 'sensitivity': 'base' } );
   };
 
+  console.log( $rootScope.listInFridge );
 
-  data.sort( compareFunc );
-  $scope.fridgeList = data;
+
+  //data.sort( compareFunc );
+  //$scope.fridgeList = data;
   //$scope.moveItem = function(item, fromIndex, toIndex) {
   //$scope.artists.splice(fromIndex,1);
   //$scope.artists.splice(toIndex,0,item);
 
   $scope.onAdd = function( name, amount, description ) {
-    data.push( { "name":name, "quantity":amount, "description":description } );
-    data.sort( compareFunc );
+
+    // default for testing
+    name = name || "test";
+    amount = amount || 3;
+    description = description || "test case";
+
+    $rootScope.listInFridge.push( { "name":name, "quantity":amount, "description":description } );
+    $rootScope.listInFridge.sort( compareFunc );
+    dummyDBManager.update();
+    console.log( $rootScope.listInFridge );
   };
 
   $scope.onDelete = function( index ) {
-    data.splice( index, 1 );
+
+    // default for testing
+    index = index || ( data.length - 1 );
+
+    $rootScope.listInFridge.splice( index, 1 );
+    dummyDBManager.update();
+    console.log( $rootScope.listInFridge );
   }
 
   $scope.onSearchRecipe = function( ) {
@@ -91,6 +125,7 @@ angular.module('starter.controllers', [])
 			console.log(result);
 			$rootScope.resultList = result;
 			$state.go('app.result' );
+
 		} );
 
 	 }
@@ -127,7 +162,7 @@ angular.module('starter.controllers', [])
 }])
 .controller('recipeCtrl', [function($scope, $rootScope, $state, $ionicHistory, APIService) {
 
-}])
+})
 
 
 .controller('recipeCtrl', function($scope, $rootScope, $state, $ionicHistory, APIService) {
@@ -164,7 +199,24 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('favoriteCtrl', function($rootScope, $scope, $ionicLoading, $state) {
+.controller('favoriteCtrl', function($rootScope, $scope, $ionicLoading, $state, $ionicHistory, APIService ) {
+
+  if( !$rootScope.isFavReady && $rootScope.isFavReady != false) {
+    $state.go( 'app' );
+  }
+
+  $ionicLoading.show(
+    {
+      template: '<p class="item-icon-left">Initializing Favorite<ion-spinner icon="lines"/></p>'
+    }
+  );
+
+  while( $rootScope.isFavReady == false ) {
+    console.log( "waiting" );
+  }
+
+  $ionicLoading.hide();
+
   // initial constants
   $scope.button = "edit";
   $scope.style = "color:black; background-color:Beige";
@@ -196,22 +248,25 @@ angular.module('starter.controllers', [])
     }
   };
 
-
-
-
-  $scope.clickOnList = function (item) {
+  $scope.clickOnList = function ( index ) {
     // regular mode. clicking on it will lead to its recipe.
     if (mode == 0) {
-      $state.go('app.favoriteRecipe' , {
-        'itemId' : item.id
-      })
-
+      $rootScope.selectedRecipe = $rootScope.listOfFavorite[ index ];
+      $ionicHistory.nextViewOptions({
+        disableBack: true
+      });
+      APIService.get_recipe_detail( $rootScope.selectedRecipe.id )
+      .then( function( result ) {
+        console.log( result );
+        $rootScope.recipeDetails = result;
+        $state.go('app.favoriteRecipe')
+      });
     }
 
     // edit mode  clicking on a item will delete that item from the list.
     if (mode == 1) {
       delete $rootScope.listOfFavorite[item.id.toString()];
-
+      dummyDBManager.update();
     }
   }
 
@@ -239,6 +294,8 @@ angular.module('starter.controllers', [])
 
     console.log( $stateParams.itemId );
     console.log( $rootScope.listOfFavorite );
+
+    dummyDBManager.update();
 
     $state.go('app.favorite');
   }
@@ -273,11 +330,11 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('selectedRecipeCtrl', function($scope, $rootScope, $state, $ionicHistory) {
+.controller('selectedRecipeCtrl', function($scope, $rootScope, $state, $ionicHistory, dummyDBManager) {
 
 
 
-  var imgURL = "https://spoonacular.com/recipeImages/" + $rootScope.selectedRecipe.id + "-312x150.jpg";
+  var imgURL = "http://spoonacular.com/recipeImages/" + $rootScope.selectedRecipe.id + "-312x150.jpg";
   //var imgURL = "http://lorempixel.com/400/200/";
   //var imgURL = "https://spoonacular.com/recipeImages/579247-556x370.jpg";
   console.log( imgURL );
@@ -309,11 +366,14 @@ angular.module('starter.controllers', [])
     var d = time.getDate();
     var y = time.getFullYear();
 
-    itemSaved.dateSaved = "" + m + "/" + d + "/" + y;
+    //itemSaved.dateSaved = "" + m + "/" + d + "/" + y;
+    itemSaved.dateSaved = time;
     $rootScope.listOfFavorite[itemSaved.id] = itemSaved;
 
     alert( "Saved" );
     console.log( itemSaved );
     console.log( $rootScope.listOfFavorite );
+
+    dummyDBManager.update();
   }
 });

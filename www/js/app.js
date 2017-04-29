@@ -32,19 +32,20 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
   dummyDBManager.extract();
 
   //Show loading screen for DB wait
-  $ionicLoading.show({template: '<p class="item-icon-left">Initializing Database<ion-spinner icon="lines"/></p>'});
-  setTimeout(function() {
-    // console.log($rootScope.listInFridge);
-    // console.log($rootScope.listOfFavorite);
-    dummyDBManager.update();
-    $ionicLoading.hide();
-  }, 1500);
-});
-
+//   $ionicLoading.show({template: '<p class="item-icon-left">Initializing Database<ion-spinner icon="lines"/></p>'});
+//   setTimeout(function() {
+//     // console.log($rootScope.listInFridge);
+//     // console.log($rootScope.listOfFavorite);
+//     dummyDBManager.update();
+//     $ionicLoading.hide();
+//   }, 1500);
+ });
+/*
   $ionicPlatform.on( "pause", function() {
       // updates DB with the 2 lists
       dummyDBManager.update();
   } );
+  */
 })
 /*
 .config( function( $compileProvider ) {
@@ -57,7 +58,7 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
       url: '/app',
       abstract: true,
       templateUrl: 'templates/menu.html',
-      controller: 'appCtrl'
+      controller: 'menuCtrl'
     })
 
   .state('app.homepage', {

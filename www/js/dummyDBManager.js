@@ -5,34 +5,48 @@ angular.module( 'starter.services' )
 		var initial_DB_Fridge = []; 
 		var initial_DB_Favorite = [];
 
+		
+		
 		this.init = function( DB, listInFridge, listOfFavorite ) {
+
+			$rootScope.isFridgeReady = false;
+			$rootScope.isFavReady  = false;
+
 			$ionicPlatform.ready(function(){
 				_DB = DB;
 				_listInFridge = listInFridge;
 				_listOfFavorite = listOfFavorite;
 
+			 _DB.executeStatement('DROP TABLE FRIDGE');
+			 _DB.executeStatement('DROP TABLE FAVORITES');
+
 			_DB.executeStatement('CREATE TABLE IF NOT EXISTS FRIDGE (name unique, quantity)');
-			_DB.executeStatement('CREATE TABLE IF NOT EXISTS FAVORITES (recipe_id unique, name, dateSaved DATETIME)');
-			// DB.executeStatement('INSERT INTO FRIDGE (name, quantity) VALUES ("apple", 1)');
-			// DB.executeStatement('INSERT INTO FRIDGE (name, quantity) VALUES ("pear", 1)');
-			// _DB.executeStatement('INSERT INTO FAVORITES (recipe_id, name, dateSaved) VALUES (?,?,?)', ["1", "Sushi", new Date()]);
-			// _DB.executeStatement('UPDATE FRIDGE SET quantity=? WHERE name = "apple"', ['45']);
+			_DB.executeStatement('CREATE TABLE IF NOT EXISTS FAVORITES (id unique, title, dateSaved DATETIME)');
+			 DB.executeStatement('INSERT INTO FRIDGE (name, quantity) VALUES ("apple", 1)');
+			 DB.executeStatement('INSERT INTO FRIDGE (name, quantity) VALUES ("pear", 1)');
+			 _DB.executeStatement('INSERT INTO FAVORITES (id, title, dateSaved) VALUES (?,?,?)', ["1", "Sushi", new Date()]);
+			 //_DB.executeStatement('UPDATE FRIDGE SET quantity=? WHERE name = "apple"', ['45']);
 			});
 		}
 
 		this.extract = function() {
 			// need actual code that extracts from DB
+	
+
 			_DB.executeStatement('SELECT * FROM FRIDGE', []).then(function(data){
 				for (var i=0; i<data.rows.length; i++){
 					_listInFridge[i] = data.rows[i];
 					initial_DB_Fridge[i] = data.rows[i];
 				}
+				$rootScope.isFridgeReady = true;
 			});
 			_DB.executeStatement('SELECT * FROM FAVORITES', []).then(function(data){
 				for (var i=0; i<data.rows.length; i++){
 					_listOfFavorite[i] = data.rows[i];
 					initial_DB_Favorite[i] = data.rows[i];
 				}
+				console.log( _listOfFavorite );
+				$rootScope.isFavReady = true;
 			});
 		}
 
