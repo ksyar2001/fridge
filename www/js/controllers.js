@@ -55,9 +55,9 @@ angular.module('starter.controllers', [])
   ]
 
   var compareFunc = function( a, b ) {
-    return a.name.localeCompare( b.name, 'en', { 'sensitivity': 'base' } ); 
+    return a.name.localeCompare( b.name, 'en', { 'sensitivity': 'base' } );
   };
-  
+
 
   data.sort( compareFunc );
   $scope.artists = data;
@@ -72,15 +72,15 @@ angular.module('starter.controllers', [])
 
   $scope.onDelete = function( index ) {
     data.splice( index, 1 );
-  } 
-  
+  }
+
   $scope.onSearchRecipe = function( ) {
 	if( data.length > 0 ) {
 		var ingredients = data[ 0 ].name;
-		for( int i = 1; i < data.length; ++i ) {
+		for( var i = 1; i < data.length; ++i ) {
 			ingredients += "," + data[ i ].name;
 		}
-		
+
 		//get_recipes_with_ingredients : function(fillingredients, ingredients, limitLicense=false, number, ranking){
 		APIService.get_recipes_with_ingredients( true, ingredients, false, 5, 2 )
 		.then( function( result ) {
@@ -88,10 +88,9 @@ angular.module('starter.controllers', [])
 			$rootScope.resultList = result;
 			$state.go('app.result' );
 		} );
-		  
+
 	 }
-  }
-};
+  };
 
 }])
 
@@ -246,7 +245,7 @@ angular.module('starter.controllers', [])
   //var imgURL = "http://lorempixel.com/400/200/";
   //var imgURL = "https://spoonacular.com/recipeImages/579247-556x370.jpg";
   console.log( imgURL );
-  
+
   // button to go back to previous result of search
   $scope.back = function () {
     // disable the automatically created back button from state.go
@@ -263,7 +262,7 @@ angular.module('starter.controllers', [])
   // saves the date saved
   $scope.save = function() {
     var itemSaved = $rootScope.selectedRecipe;
-    
+
     if( $rootScope.listOfFavorite.hasOwnProperty ( itemSaved.id ) ) {
       alert( "Already added" );
       return;
@@ -271,7 +270,7 @@ angular.module('starter.controllers', [])
 
     var time = new Date();
     var m = time.getMonth() + 1;
-    var d = time.getDate(); 
+    var d = time.getDate();
     var y = time.getFullYear();
 
     itemSaved.dateSaved = "" + m + "/" + d + "/" + y;
