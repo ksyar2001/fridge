@@ -25,62 +25,71 @@ angular.module('starter.controllers', ['ionic'])
 .controller('menuCtrl', function($scope, $ionicModal, $timeout) {
 
 })
-.controller('fridgeCtrl', function($scope, $http, $rootScope, $ionicLoading, $ionicModal, dummyDBManager) {
-
-  if( !$rootScope.isFridgeReady && $rootScope.isFridgeReady != false ) {
-    $state.go( 'app' );
-  }
-
+// .controller('fridgeCtrl', function($scope, $http, $rootScope, $ionicLoading, $ionicModal, dummyDBManager) {
+//
+//   if( !$rootScope.isFridgeReady && $rootScope.isFridgeReady != false ) {
+//     $state.go( 'app' );
+//   }
+// })
 
 .controller('modalCtrl', function($scope, $ionicModal, $timeout) {
 
 })
 
-.controller('fridgeCtrl',['$scope', '$state', '$http', function($scope, $state, $http, $rootScope, APIService, $ionicModal) {
-  // $scope.listInFridge = $rootScope.listInFridge;
-  // console.log($rootScope.listInFridge[0]);
+//.controller('fridgeCtrl',  function($scope, $http, $rootScope, $ionicLoading, $ionicModal, dummyDBManager) {
+.controller('fridgeCtrl',['$scope', '$rootScope', '$state','$http', function($scope, $http, $state,$ionicLoading,  $http, $rootScope, APIService, $ionicModal, dummyDBManager) {
 
 
-  $ionicLoading.show(
-    {
-      template: '<p class="item-icon-left">Initializing Fridge<ion-spinner icon="lines"/></p>'
-    }
-  );
+   //TODO: tmp commented because of a typeError
 
-  while( $rootScope.isFridgeReady == false ) {
-    console.log( "waiting" );
-  }
+  //  if( !$rootScope.isFridgeReady && $rootScope.isFridgeReady != false ) {
+  //    $state.go( 'app' );
+  //  }
+   //
+   //
+  //   $ionicLoading.show(
+  //     {
+  //       template: '<p class="item-icon-left">Initializing Fridge<ion-spinner icon="lines"/></p>'
+  //     }
+  //   );
+  // while( $rootScope.isFridgeReady == false ) {
+  //   console.log( "waiting" );
+  // }
+  //
+  // $ionicLoading.hide();
 
-  $ionicLoading.hide();
 
 // form of listInFridge would be similar to
 
-  var data = [
-    {
-    "name": "Onion",
-    "quantity": "half-sliced",
+var data = [
+  {
+  "name": "Onion",
+  "quantity": "half-sliced",
+  "img": "http://lorempixel.com/400/200/",
+  "description": "What can I do with this onion?\r\n"
+  },
+  {
+    "name": "Baby Carrot",
+    "quantity": "A lot",
     "img": "http://lorempixel.com/400/200/",
-    "description": "What can I do with this onion?\r\n"
-    },
-    {
-      "name": "Baby Carrot",
-      "quantity": "A lot",
-      "img": "http://lorempixel.com/400/200/",
-      "description": "What can I do with this baby carrot?\r\n"
-    },
-    {
-      "name": "Pizza",
-      "quantity": "A slice",
-      "img": "http://lorempixel.com/400/200/",
-      "description": "What can I do with this pizza?\r\n"
-    }
-  ]
+    "description": "What can I do with this baby carrot?\r\n"
+  },
+  {
+    "name": "Pizza",
+    "quantity": "A slice",
+    "img": "http://lorempixel.com/400/200/",
+    "description": "What can I do with this pizza?\r\n"
+  }
+]
 
-  var compareFunc = function( a, b ) {
-    return a.name.localeCompare( b.name, 'en', { 'sensitivity': 'base' } );
-  };
+var compareFunc = function( a, b ) {
+  return a.name.localeCompare( b.name, 'en', { 'sensitivity': 'base' } );
+};
 
-  console.log( $rootScope.listInFridge );
+
+
+  //TODO: tmp commented because of a typeError
+  //console.log( $rootScope.listInFridge );
 
 
   //data.sort( compareFunc );
@@ -129,7 +138,7 @@ angular.module('starter.controllers', ['ionic'])
 		} );
 
 	 }
-  }
+ }
   //var template='<ion-modal-view><ion-header-bar><h1 class="title">title</h1></ion-header-bar><ion-content>content</ion-content></ion-modal-view>';
 
   // $scope.modal2 = $ionicModal.fromTemplate('<div class="modal"><header class="bar bar-header bar-positive"> <h1 class="title">I\'m A Modal</h1><div class="button button-clear" ng-click="modal2.hide()"><span class="icon ion-close"></span></div></header><content has-header="true" padding="true"><p>This is a modal</p></content></div>', {
@@ -160,9 +169,11 @@ angular.module('starter.controllers', ['ionic'])
   }
 
 }])
-.controller('recipeCtrl', [function($scope, $rootScope, $state, $ionicHistory, APIService) {
 
-})
+
+// .controller('recipeCtrl', [function($scope, $rootScope, $state, $ionicHistory, APIService) {
+//
+// }])
 
 
 .controller('recipeCtrl', function($scope, $rootScope, $state, $ionicHistory, APIService) {
