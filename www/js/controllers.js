@@ -37,8 +37,7 @@ angular.module('starter.controllers', ['ionic'])
 })
 
 //.controller('fridgeCtrl',  function($scope, $http, $rootScope, $ionicLoading, $ionicModal, dummyDBManager) {
-.controller('fridgeCtrl',['$scope', '$rootScope', '$state','$http', function($scope, $http, $state,$ionicLoading,  $http, $rootScope, APIService, $ionicModal, dummyDBManager) {
-
+.controller('fridgeCtrl', function($scope, $http, $state,$ionicLoading, $http, $rootScope, APIService, $ionicModal, dummyDBManager) {
 
    //TODO: tmp commented because of a typeError
 
@@ -168,7 +167,7 @@ var compareFunc = function( a, b ) {
     $state.go('app.modal');
   }
 
-}])
+})
 
 
 // .controller('recipeCtrl', [function($scope, $rootScope, $state, $ionicHistory, APIService) {
@@ -382,8 +381,8 @@ var compareFunc = function( a, b ) {
     $rootScope.listOfFavorite[itemSaved.id] = itemSaved;
 
     alert( "Saved" );
-    console.log( itemSaved );
-    console.log( $rootScope.listOfFavorite );
+    // console.log( itemSaved );
+    // console.log( $rootScope.listOfFavorite );
 
     dummyDBManager.update();
   }
