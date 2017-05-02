@@ -32,8 +32,28 @@ angular.module('starter.controllers', ['ionic'])
 //   }
 // })
 
-.controller('modalCtrl', function($scope, $state,$ionicModal, $timeout) {
+.controller('modalCtrl', function($scope, $state, $rootScope, dummyDBManager) {
+
+  $scope.input = {}
+
+  //$scope.name = "";
+  //$scope.description = "";
+
+  var compareFunc = function( a, b ) {
+    return a.name.localeCompare( b.name, 'en', { 'sensitivity': 'base' } );
+  };
+
   $scope.toFridge = function () {
+   
+    //$scope.name = $scope.name || "test";
+    $scope.amount = $scope.amount || 3;
+    //$scope.description = $scope.description || "test case";
+
+    $rootScope.listInFridge.push( { "name":$scope.input.name, "quantity":$scope.amount, "description":$scope.input.description } );
+    $rootScope.listInFridge.sort( compareFunc );
+    dummyDBManager.update();
+    console.log( $rootScope.listInFridge );
+  
     $state.go('app.fridge');
   }
 })
@@ -99,28 +119,24 @@ var compareFunc = function( a, b ) {
   //$scope.artists.splice(fromIndex,1);
   //$scope.artists.splice(toIndex,0,item);
 
-  $scope.onAdd = function( name, amount, description ) {
-
-    // default for testing
-    name = name || "test";
-    amount = amount || 3;
-    description = description || "test case";
-
-    $rootScope.listInFridge.push( { "name":name, "quantity":amount, "description":description } );
-    $rootScope.listInFridge.sort( compareFunc );
-    dummyDBManager.update();
-    console.log( $rootScope.listInFridge );
-  };
+  console.log( $rootScope.listInFridge );
 
   $scope.onDelete = function( index ) {
 
+    console.log( "delete index is " + index );
+
     // default for testing
     index = index || ( data.length - 1 );
-
-    $rootScope.listInFridge.splice( index, 1 );
+    if( $rootScope.listInFridge.length > 1 ) {
+      $rootScope.listInFridge.splice( index, 1 );
+    }
+    else {
+      $rootScope.listInFridge.length = 0;
+    }
     dummyDBManager.update();
     console.log( $rootScope.listInFridge );
   }
+
 
   $scope.onSearchRecipe = function( ) {
 	if( data.length > 0 ) {

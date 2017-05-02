@@ -75,6 +75,7 @@ angular.module( 'starter.services' )
 
 			//for deleting in DB
 			for (var i=0; i<objects_tobe_deleted.length; i++){
+				console.log( "tobe deleted = " + objects_tobe_deleted[i].name );
 				batch.executeStatement('DELETE from FRIDGE WHERE name=?', [objects_tobe_deleted[i].name,]);
 			}
 			//for adding in DB
