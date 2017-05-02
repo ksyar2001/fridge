@@ -32,8 +32,10 @@ angular.module('starter.controllers', ['ionic'])
 //   }
 // })
 
-.controller('modalCtrl', function($scope, $ionicModal, $timeout) {
-
+.controller('modalCtrl', function($scope, $state,$ionicModal, $timeout) {
+  $scope.toFridge = function () {
+    $state.go('app.fridge');
+  }
 })
 
 //.controller('fridgeCtrl',  function($scope, $http, $rootScope, $ionicLoading, $ionicModal, dummyDBManager) {
