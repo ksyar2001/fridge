@@ -165,12 +165,13 @@ var compareFunc = function( a, b ) {
       }
     }
     dummyDBManager.update();
-    console.log( $rootScope.listInFridge );
   }
 
   $scope.onDeleteAll = function( index ) {
 
     console.log( "delete all index is " + index );
+    console.log("BEFORE DELETE");
+    console.log($rootScope.listInFridge);
 
     // default for testing
     index = index || ( $rootScope.listInFridge.length - 1 );
@@ -181,6 +182,7 @@ var compareFunc = function( a, b ) {
       $rootScope.listInFridge.length = 0;
     }
     dummyDBManager.update();
+    console.log("AFTER DELETE");
     console.log( $rootScope.listInFridge );
   }
 
