@@ -1,5 +1,20 @@
+
+
+
 <ion-view view-title="fridge">
 
+  <ion-header-bar class="bar-positive">
+        <div class="buttons">
+          <button class="button button-icon icon ion-ios7-minus-outline"
+            ng-click="data.showDelete = !data.showDelete; data.showReorder = false"></button>
+        </div>
+        <h1 class="title">Ionic Delete/Option Buttons</h1>
+        <button class="button"
+            ng-click="data.showDelete = false; data.showReorder = !data.showReorder">
+              Reorder
+            </button>
+        </div>
+      </ion-header-bar>
 
   <div class="bar bar-subheader item-input-inset bar-light">
     <label class="item-input-wrapper">
@@ -12,14 +27,25 @@
   <ion-content class="has-subheader">
      <button class="button" ng-click="clear_db()">Clear DB</button>
      <button class="button" ng-click="onDeleteSome()">del</button>
+     <button class="button"
+               ng-click="data.showDelete = false; data.showReorder = !data.showReorder">
+                 Reorder
+               </button>
+
   <div align="center" width="100" height="100">
     <br>
 
     <button class="button" style="background-color:4885ed ; color:white;   border-radius:0px;" ng-click="toModal()">Feed my Fridge</button>
 
+
+
+
     <!--<button class="button button-icon ion-plus-circled"
     ng-click="modalShow()"></button>-->
   </div>
+
+
+
 
 
 
@@ -29,11 +55,11 @@
   -->
   <br>
   <br>
-  <ion-list show-delete="false" can-swipe="true" >
+  <ion-list show-delete="data.showDelete" show-reorder="data.showReorder" >
     <!-- Show icon in left position: item-icon-left -->
 
-    <ion-item-sliding>
-      <ion-item ng-repeat="item in listInFridge | filter:query" class="item-thumbnail-left item-icon-right item-text-wrap">
+
+      <ion-item ng-repeat="item in listInFridge | filter:query" class="item-thumbnail-left item-icon-right item-text-wrap" ng-click="clicker(item)">
 
         <img ng-src="{{item.image}}" alt="{{item.name}} Photo">
         <h2>{{item.name}}</h2>
@@ -41,8 +67,18 @@
         <p>{{item.description | limitTo: 100}}{{item.description.length > 100 ? '&hellip;':''}}</p>
 
 
-        <ion-option-button class="button-assertive icon ion-trash-a" ng-click="onDeleteAll($index)">Delete</ion-option-button>
+        <!--<ion-option-button class="button-assertive icon ion-trash-a" ng-click="onDeleteAll($index)">Delete</ion-option-button>
 
+-->
+        <ion-delete-button class="ion-minus-circled"
+                                     ng-click="onItemDelete(item)">
+                  </ion-delete-button>
+                  <ion-option-button class="button-assertive"
+                                     ng-click="onDeleteAll($index)">
+                    Delete
+                  </ion-option-button>
+
+                  <ion-reorder-button class="ion-navicon" on-reoder="moveItem(item, fromIndex, toIndex)"></ion-reorder-button>
 
 
       </ion-item>
@@ -50,11 +86,17 @@
 
 
 
-      <ion-item-sliding>
+
 
 
       </ion-list>
 
+      <br>
+      <br>
+
+      <div align="center" width="100" height="100">
+        <button class="button" style="background-color:db3236 ; color:white;   border-radius:0px;" ng-click="onSearchRecipe()">Search Recipe</button>
+      </div>
 
 
       <!--

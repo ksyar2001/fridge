@@ -70,7 +70,7 @@ angular.module('starter.controllers', ['ionic'])
       }
       dummyDBManager.update();
       console.log( $rootScope.listInFridge );
-    
+
       $state.go('app.fridge');
 		},function(err){
 			//failure case
@@ -78,7 +78,7 @@ angular.module('starter.controllers', ['ionic'])
       $state.go('app.fridge');
 		});
     //$scope.name = $scope.name || "test";
-    
+
     //$scope.description = $scope.description || "test case";
   }
 })
@@ -234,7 +234,12 @@ var compareFunc = function( a, b ) {
   // };
   $scope.toModal = function () {
     $state.go('app.modal');
-  }
+  };
+
+  $scope.moveItem = function(item, fromIndex, toIndex) {
+    $rootScope.listInFridge.splice(fromIndex, 1);
+    $rootScope.listInFridge.splice(toIndex, 0, item);
+  };
 
 })
 
