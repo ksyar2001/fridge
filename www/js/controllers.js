@@ -175,8 +175,6 @@ var compareFunc = function( a, b ) {
   $scope.onDeleteAll = function( index ) {
 
     console.log( "delete all index is " + index );
-    console.log("BEFORE DELETE");
-    console.log($rootScope.listInFridge);
 
     // default for testing
     index = ( index == 0 || index ) ? index : ( $rootScope.listInFridge.length - 1 );
@@ -188,8 +186,6 @@ var compareFunc = function( a, b ) {
       $rootScope.listInFridge.length = 0;
     }
     dummyDBManager.update();
-    console.log("AFTER DELETE");
-    console.log( $rootScope.listInFridge );
   }
 
 
@@ -284,7 +280,7 @@ var compareFunc = function( a, b ) {
 
 .controller('favoriteCtrl', function($rootScope, $scope, $ionicLoading, $state, $ionicHistory, APIService ) {
 
-  if( !$rootScope.isFavReady && $rootScope.isFavReady != false) {
+  if( $rootScope.isFavReady && $rootScope.isFavReady != false) {
     $state.go( 'app' );
   }
 
@@ -417,10 +413,10 @@ var compareFunc = function( a, b ) {
 
 
 
-  var imgURL = "http://spoonacular.com/recipeImages/" + $rootScope.selectedRecipe.id + "-312x150.jpg";
+  $scope.imgURL = "http://spoonacular.com/recipeImages/" + $rootScope.selectedRecipe.id + "-312x150.jpg";
   //var imgURL = "http://lorempixel.com/400/200/";
   //var imgURL = "https://spoonacular.com/recipeImages/579247-556x370.jpg";
-  console.log( imgURL );
+  console.log( $scope.imgURL );
 
   // button to go back to previous result of search
   $scope.back = function () {

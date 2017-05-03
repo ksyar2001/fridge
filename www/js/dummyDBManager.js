@@ -18,7 +18,7 @@ angular.module( 'starter.services' )
 				// _DB.executeStatement('DROP TABLE FRIDGE');
 			 // 	_DB.executeStatement('DROP TABLE FAVORITES');
 
-				_DB.executeStatement('CREATE TABLE IF NOT EXISTS FRIDGE (name TEXT unique, quantity INTEGER)');
+				_DB.executeStatement('CREATE TABLE IF NOT EXISTS FRIDGE (name TEXT unique, quantity INTEGER, image TEXT)');
 				_DB.executeStatement('CREATE TABLE IF NOT EXISTS FAVORITES (id INTEGER unique, title TEXT, dateSaved DATETIME)');
 			 	//DB.executeStatement('INSERT INTO FRIDGE (name, quantity) VALUES ("apple", 1)');
 			 	//DB.executeStatement('INSERT INTO FRIDGE (name, quantity) VALUES ("pear", 1)');
@@ -93,7 +93,7 @@ angular.module( 'starter.services' )
 			}
 			//for adding in DB
 			for (var i=0; i<objects_tobe_added.length; i++){
-				batch.executeStatement('INSERT INTO FRIDGE (name, quantity) VALUES (?,?)', [objects_tobe_added[i].name, objects_tobe_added[i].quantity]);
+				batch.executeStatement('INSERT INTO FRIDGE (name, quantity, image) VALUES (?,?,?)', [objects_tobe_added[i].name, objects_tobe_added[i].quantity, objects_tobe_added[i].image]);
 			}
 			//for updating in DB
 			for (var i=0; i<objects_tobe_updated.length; i++){
