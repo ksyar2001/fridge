@@ -75,10 +75,6 @@ angular.module('starter.controllers', ['ionic'])
     //$scope.name = $scope.name || "test";
     
     //$scope.description = $scope.description || "test case";
-
-
-
-    
   }
 })
 
@@ -143,7 +139,10 @@ var compareFunc = function( a, b ) {
   //$scope.artists.splice(fromIndex,1);
   //$scope.artists.splice(toIndex,0,item);
 
-  console.log( $rootScope.listInFridge );
+  $scope.clear_db = function(){
+    console.log("Clearing DB");
+    dummyDBManager.clean_table();
+  }
 
   $scope.onDeleteSome = function( index, number ) {
     console.log( "delete some index is " + index );
