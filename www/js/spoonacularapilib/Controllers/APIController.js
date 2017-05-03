@@ -871,8 +871,8 @@ angular.module('SpoonacularAPILib')
                     
                     //process response
                     _response.then(function (_result) {
-                        var _strResult =_result.body;
-                        _result.body = JSON.parse(_strResult);
+                        //var _strResult =_result.body;
+                        //_result.body = JSON.parse(_strResult);
                         _deffered.resolve(_result);
                     }, function(_result){
                         // Error handling for custom HTTP status codes

@@ -44,18 +44,22 @@ angular.module('starter.controllers', ['ionic'])
   };
 
   $scope.toFridge = function () {
-    $scope.amount = $scope.amount || 3;
+    $scope.amount = $scope.amount || 1;
     var productJson = new Productjson( { "title": $scope.input.name } );
     var result = APIController.createClassifyAGroceryProduct( productJson );
     //Function call returns a promise
     result.then(function(success){
+      
 			//success case
 			//getting context of response
 			console.log(success.getContext());
 
+      try {
+
       var answer = success.getContext().response.body;
 
       var object = $rootScope.listInFridge.find( a => a.name == answer.category );
+      console.log( object );
       if( object ) {
         object.quantity++;
       }
@@ -65,8 +69,14 @@ angular.module('starter.controllers', ['ionic'])
       }
       dummyDBManager.update();
       console.log( $rootScope.listInFridge );
+
+    }
+    catch( err ) {
+      alert( "ERROR" );
+    }
     
-      $state.go('app.fridge');
+    $state.go('app.fridge');
+      
 		},function(err){
 			//failure case
       alert( "ERROR : " + err.getContext() );
@@ -428,7 +438,7 @@ var compareFunc = function( a, b ) {
 })
 
 
-.controller('selectedRecipeCtrl', function($scope, $rootScope, $state, $ionicHistory, dummyDBManager) {
+.controller('selectedRecipeCtrl', function($scope, $rootScope, $state, $ionicHistory, dummyDBManager, APIController, Productjsonarray) {
 
 
 
@@ -443,42 +453,47 @@ var compareFunc = function( a, b ) {
     var usedArray = $rootScope.recipeDetail.extendedIngredients;
 
 
-    var result = APIController.createClassifyGroceryProduct( productJson );
+    var productJsonArray = [];
+    for( var i = 0; i < usedArray.length; ++i ) {
+      productJsonArray.push( { "title":usedArray[i].name } );
+    }
+    productJsonArray = productJsonArray.map( function( elem ) { return new Productjsonarray( elem ) } );
+    
+
+    var result = APIController.createClassifyGroceryProductsBatch( productJsonArray );
     //Function call returns a promise
     result.then(function(success){
 			//success case
 			//getting context of response
 			console.log(success.getContext());
 
-      var answer = success.getContext().response.body;
+      var answerArray = success.getContext().response.body;
 
-      var object = $rootScope.listInFridge.find( a => a.name == answer.category );
-      if( object ) {
-        object.quantity++;
+      if( answerArray.length != usedArray.length ) {
+        alert( "LENGTH DIFFERENT" );
       }
-      else {
-        $rootScope.listInFridge.push( { "name":answer.category, "quantity":$scope.amount, "description":$scope.input.description, "image":answer.image } );
-        $rootScope.listInFridge.sort( compareFunc );
-      }
-      dummyDBManager.update();
+
       console.log( $rootScope.listInFridge );
-    
-      $state.go('app.fridge');
+      console.log( answerArray );
+      console.log( usedArray );
+
+      for( var i = 0; i < answerArray.length; ++i ) {
+        var object = $rootScope.listInFridge.find( a => a.name == answerArray[i].category );
+        if( object ) {
+          var index = $rootScope.listInFridge.indexOf( object );
+          $rootScope.onDeleteSome( index, usedArray[ i ].amount );
+        }
+        else {
+          // skip for now
+          // apply ingredient substitute?
+        }
+      }
+      console.log( $rootScope.listInFridge );
+     
 		},function(err){
 			//failure case
-      alert( "ERROR : " + err.getContext() );
-      $state.go('app.fridge');
+      console.log( err.getContext() );
 		});
-    for( var i = 0; i < usedArray.length; ++i ) {
-      var index = $rootScope.listInFridge.indexOf( usedArray[ i ].name );
-      if( index != -1 ) {
-        $rootScope.onDeleteSome( index, usedArray[ i ].amount );
-      }
-      else {
-        // skip for now
-        // apply ingredient substitute?
-      }
-    }
   }
 
   // button to go back to previous result of search
