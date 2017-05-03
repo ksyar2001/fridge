@@ -91,8 +91,8 @@ angular.module('starter.controllers', ['ionic'])
   //  if( !$rootScope.isFridgeReady && $rootScope.isFridgeReady != false ) {
   //    $state.go( 'app' );
   //  }
-  //
-  //
+   //
+   //
   //   $ionicLoading.show(
   //     {
   //       template: '<p class="item-icon-left">Initializing Fridge<ion-spinner icon="lines"/></p>'
@@ -207,8 +207,31 @@ var compareFunc = function( a, b ) {
 
 	 }
  }
+  //var template='<ion-modal-view><ion-header-bar><h1 class="title">title</h1></ion-header-bar><ion-content>content</ion-content></ion-modal-view>';
+
+  // $scope.modal2 = $ionicModal.fromTemplate('<div class="modal"><header class="bar bar-header bar-positive"> <h1 class="title">I\'m A Modal</h1><div class="button button-clear" ng-click="modal2.hide()"><span class="icon ion-close"></span></div></header><content has-header="true" padding="true"><p>This is a modal</p></content></div>', {
+  //     scope: $scope,
+  //
+  //     animation: 'slide-left-right'
+  //   });
 
 
+
+  // $scope.modalShow = function() {
+  //   $ionicModal.fromTemplate('
+  //   <ion-modal-view><ion-header-bar class="bar-positive"><h1 class="title">Modal form</h1></ion-header-bar><ion-content class="padding"><p style="text-align: center;">Please use shift + tab a few times and notice you\'ll be able to access the form below the modal.</p><form role="form"><ion-list><label class="item item-input" ion-item><input type="text" placeholder="Modal value" /></label></ion-list></form></ion-content></ion-modal-view>').show();
+  // };
+
+  // $ionicModal.fromTemplateUrl('templates/fridge.html', {
+  //   scope: $scope
+  // }).then(function(modal) {
+  //   $scope.modal = modal;
+  // });
+
+  // $scope.createContact = function(u) {
+  //   //$scope.contacts.push({ name: u.firstName + ' ' + u.lastName });
+  //   $scope.modal.hide();
+  // };
   $scope.toModal = function () {
     $state.go('app.modal');
   }
