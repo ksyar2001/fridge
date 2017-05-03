@@ -32,9 +32,54 @@ angular.module('starter.controllers', ['ionic'])
 //   }
 // })
 
-.controller('modalCtrl', function($scope, $state,$ionicModal, $timeout) {
+.controller('modalCtrl', function($scope, $state, $rootScope, dummyDBManager, APIController,Productjson,Classifiedproduct,Productjsonarray,FindByIngredientsModel) {
+
+  $scope.input = {}
+
+  //$scope.name = "";
+  //$scope.description = "";
+
+  var compareFunc = function( a, b ) {
+    try {
+      return a.name.localeCompare( b.name, 'en', { 'sensitivity': 'base' } );
+    }
+    catch( err ) {
+      return -1;
+    }
+  };
+
   $scope.toFridge = function () {
-    $state.go('app.fridge');
+    $scope.amount = $scope.amount || 1;
+    var productJson = new Productjson( { "title": $scope.input.name } );
+    var result = APIController.createClassifyAGroceryProduct( productJson );
+    //Function call returns a promise
+    result.then(function(success){
+			//success case
+			//getting context of response
+			console.log(success.getContext());
+
+      var answer = success.getContext().response.body;
+
+      var object = $rootScope.listInFridge.find( a => a.name == answer.category );
+      if( object ) {
+        object.quantity++;
+      }
+      else {
+        $rootScope.listInFridge.push( { "name":answer.category, "quantity":$scope.amount, "description":$scope.input.description, "image":answer.image } );
+        $rootScope.listInFridge.sort( compareFunc );
+      }
+      dummyDBManager.update();
+      console.log( $rootScope.listInFridge );
+    
+      $state.go('app.fridge');
+		},function(err){
+			//failure case
+      alert( "ERROR : " + err.getContext() );
+      $state.go('app.fridge');
+		});
+    //$scope.name = $scope.name || "test";
+    
+    //$scope.description = $scope.description || "test case";
   }
 })
 
@@ -62,26 +107,26 @@ angular.module('starter.controllers', ['ionic'])
 
 // form of listInFridge would be similar to
 
-var data = [
-  {
-  "name": "Onion",
-  "quantity": "half-sliced",
-  "img": "http://lorempixel.com/400/200/",
-  "description": "What can I do with this onion?\r\n"
-  },
-  {
-    "name": "Baby Carrot",
-    "quantity": "A lot",
-    "img": "http://lorempixel.com/400/200/",
-    "description": "What can I do with this baby carrot?\r\n"
-  },
-  {
-    "name": "Pizza",
-    "quantity": "A slice",
-    "img": "http://lorempixel.com/400/200/",
-    "description": "What can I do with this pizza?\r\n"
-  }
-]
+// var data = [
+//   {
+//   "name": "Onion",
+//   "quantity": "half-sliced",
+//   "img": "http://lorempixel.com/400/200/",
+//   "description": "What can I do with this onion?\r\n"
+//   },
+//   {
+//     "name": "Baby Carrot",
+//     "quantity": "A lot",
+//     "img": "http://lorempixel.com/400/200/",
+//     "description": "What can I do with this baby carrot?\r\n"
+//   },
+//   {
+//     "name": "Pizza",
+//     "quantity": "A slice",
+//     "img": "http://lorempixel.com/400/200/",
+//     "description": "What can I do with this pizza?\r\n"
+//   }
+// ]
 
 var compareFunc = function( a, b ) {
   return a.name.localeCompare( b.name, 'en', { 'sensitivity': 'base' } );
@@ -99,28 +144,52 @@ var compareFunc = function( a, b ) {
   //$scope.artists.splice(fromIndex,1);
   //$scope.artists.splice(toIndex,0,item);
 
-  $scope.onAdd = function( name, amount, description ) {
+  $scope.clear_db = function(){
+    console.log("Clearing DB");
+    dummyDBManager.clean_table();
+  }
+
+  $scope.onDeleteSome = function( index, number ) {
+    console.log( "delete some index is " + index );
 
     // default for testing
-    name = name || "test";
-    amount = amount || 3;
-    description = description || "test case";
+    index = ( index == 0 || index ) ? index : ( $rootScope.listInFridge.length - 1 );
+    number = number || 1;
 
-    $rootScope.listInFridge.push( { "name":name, "quantity":amount, "description":description } );
-    $rootScope.listInFridge.sort( compareFunc );
-    dummyDBManager.update();
-    console.log( $rootScope.listInFridge );
-  };
+    var target = $rootScope.listInFridge[ index ];
 
-  $scope.onDelete = function( index ) {
-
-    // default for testing
-    index = index || ( data.length - 1 );
-
-    $rootScope.listInFridge.splice( index, 1 );
+    if( target.quantity - number > 0 ) {
+      target.quantity -= number;
+    }
+    else {
+      if( $rootScope.listInFridge.length > 1 ) {
+        $rootScope.listInFridge.splice( index, 1 );
+      }
+      else {
+        $rootScope.listInFridge.length = 0;
+      }
+    }
     dummyDBManager.update();
     console.log( $rootScope.listInFridge );
   }
+
+  $scope.onDeleteAll = function( index ) {
+
+    console.log( "delete all index is " + index );
+
+    // default for testing
+    index = ( index == 0 || index ) ? index : ( $rootScope.listInFridge.length - 1 );
+
+    if( $rootScope.listInFridge.length > 1 ) {
+      $rootScope.listInFridge.splice( index, 1 );
+    }
+    else {
+      $rootScope.listInFridge.length = 0;
+    }
+    dummyDBManager.update();
+    console.log( $rootScope.listInFridge );
+  }
+
 
   $scope.onSearchRecipe = function( ) {
 	if( data.length > 0 ) {

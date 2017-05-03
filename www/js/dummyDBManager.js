@@ -15,8 +15,8 @@ angular.module( 'starter.services' )
 				_listInFridge = listInFridge;
 				_listOfFavorite = listOfFavorite;
 
-				//_DB.executeStatement('DROP TABLE FRIDGE');
-			 	//_DB.executeStatement('DROP TABLE FAVORITES');
+				// _DB.executeStatement('DROP TABLE FRIDGE');
+			 // 	_DB.executeStatement('DROP TABLE FAVORITES');
 
 				_DB.executeStatement('CREATE TABLE IF NOT EXISTS FRIDGE (name TEXT unique, quantity INTEGER)');
 				_DB.executeStatement('CREATE TABLE IF NOT EXISTS FAVORITES (id INTEGER unique, title TEXT, dateSaved DATETIME)');
@@ -47,6 +47,11 @@ angular.module( 'starter.services' )
 			});
 		}
 
+		this.clean_table = function(){
+			_DB.executeStatement('DROP TABLE FRIDGE');
+			_DB.executeStatement('DROP TABLE FAVORITES');
+		}
+
 		this.update = function() {
 			var batch = _DB.newBatchTransaction();
 			var objects_tobe_updated = [];
@@ -55,6 +60,8 @@ angular.module( 'starter.services' )
 			var favorites_tobe_added = [];
 			var favorites_tobe_deleted = [];
 			//for deleting and updating items
+			console.log("INITIAL DB");
+			console.log(initial_DB_Fridge);
 			for (var i=0; i<initial_DB_Fridge.length; i++){
 				if (containsObject(initial_DB_Fridge[i], _listInFridge) == true){
 					//itmes for update
@@ -72,9 +79,16 @@ angular.module( 'starter.services' )
 					objects_tobe_added.push(_listInFridge[i]);
 				}
 			}
+			console.log("===DB Fridge===")
+			console.log(_listInFridge);
+			console.log("===TOBE_DELETED===");
+			console.log(objects_tobe_deleted);
+			console.log("===TOBE_ADDED===");
+			console.log(objects_tobe_added);
 
 			//for deleting in DB
 			for (var i=0; i<objects_tobe_deleted.length; i++){
+				console.log( "tobe deleted = " + objects_tobe_deleted[i].name );
 				batch.executeStatement('DELETE from FRIDGE WHERE name=?', [objects_tobe_deleted[i].name,]);
 			}
 			//for adding in DB
@@ -90,8 +104,8 @@ angular.module( 'starter.services' )
 
 			listofFavorite = dicttoArray(_listOfFavorite);
 
-			console.log(listofFavorite);
-			console.log(initial_DB_Favorite);
+			// console.log(listofFavorite);
+			// console.log(initial_DB_Favorite);
 
 			for (var i=0; i<initial_DB_Favorite.length; i++){
 				if (containsObject(initial_DB_Favorite[i], listofFavorite, true) == false){
@@ -113,10 +127,10 @@ angular.module( 'starter.services' )
 				batch.executeStatement('INSERT INTO FAVORITES (id, title, dateSaved) VALUES (?,?,?)', [favorites_tobe_added[i].id, favorites_tobe_added[i].title, new Date()]);
 			}
 
-
-
 			//commit changes to the DB
 			batch.commit().then(function(){
+				initial_DB_Fridge = _listInFridge.slice(0);
+				initial_DB_Favorite = listofFavorite;
 				return _DB.executeStatement('SELECT * FROM FAVORITES', null);
 			})
 			.then(function(result){

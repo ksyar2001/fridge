@@ -23,13 +23,8 @@
 
 
   <ion-content class="has-subheader">
-
-
-
-     <!--<button class="button" ng-click="onAdd()">add</button>
-     <button class="button" ng-click="onDelete()">del</button> -->
-
-
+     <button class="button" ng-click="clear_db()">Clear DB</button>
+     <button class="button" ng-click="onDeleteSome()">del</button>
   <div align="center" width="100" height="100">
     <br>
 
@@ -59,7 +54,7 @@
         <p>{{item.description | limitTo: 100}}{{item.description.length > 100 ? '&hellip;':''}}</p>
 
 
-        <ion-option-button class="button-assertive icon ion-trash-a" ng-click="onDelete($index)">Delete</ion-option-button>
+        <ion-option-button class="button-assertive icon ion-trash-a" ng-click="onDeleteAll($index)">Delete</ion-option-button>
 
 
 
