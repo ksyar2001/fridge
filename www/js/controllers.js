@@ -441,6 +441,34 @@ var compareFunc = function( a, b ) {
   // the goal of this function is to remove the correct amount of ingredients from the fridge
   $scope.cook = function() {
     var usedArray = $rootScope.recipeDetail.extendedIngredients;
+
+
+    var result = APIController.createClassifyGroceryProduct( productJson );
+    //Function call returns a promise
+    result.then(function(success){
+			//success case
+			//getting context of response
+			console.log(success.getContext());
+
+      var answer = success.getContext().response.body;
+
+      var object = $rootScope.listInFridge.find( a => a.name == answer.category );
+      if( object ) {
+        object.quantity++;
+      }
+      else {
+        $rootScope.listInFridge.push( { "name":answer.category, "quantity":$scope.amount, "description":$scope.input.description, "image":answer.image } );
+        $rootScope.listInFridge.sort( compareFunc );
+      }
+      dummyDBManager.update();
+      console.log( $rootScope.listInFridge );
+    
+      $state.go('app.fridge');
+		},function(err){
+			//failure case
+      alert( "ERROR : " + err.getContext() );
+      $state.go('app.fridge');
+		});
     for( var i = 0; i < usedArray.length; ++i ) {
       var index = $rootScope.listInFridge.indexOf( usedArray[ i ].name );
       if( index != -1 ) {
