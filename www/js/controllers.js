@@ -145,12 +145,36 @@ var compareFunc = function( a, b ) {
 
   console.log( $rootScope.listInFridge );
 
-  $scope.onDelete = function( index ) {
-
-    console.log( "delete index is " + index );
+  $scope.onDeleteSome = function( index, number ) {
+    console.log( "delete some index is " + index );
 
     // default for testing
-    index = index || ( data.length - 1 );
+    index = index || ( $rootScope.listInFridge.length - 1 );
+    number = number || 1;
+
+    var target = $rootScope.listInFridge[ index ];
+
+    if( target.quantity - number > 0 ) {
+      target.quantity -= number;
+    }
+    else {
+      if( $rootScope.listInFridge.length > 1 ) {
+        $rootScope.listInFridge.splice( index, 1 );
+      }
+      else {
+        $rootScope.listInFridge.length = 0;
+      }
+    }
+    dummyDBManager.update();
+    console.log( $rootScope.listInFridge );
+  }
+
+  $scope.onDeleteAll = function( index ) {
+
+    console.log( "delete all index is " + index );
+
+    // default for testing
+    index = index || ( $rootScope.listInFridge.length - 1 );
     if( $rootScope.listInFridge.length > 1 ) {
       $rootScope.listInFridge.splice( index, 1 );
     }
