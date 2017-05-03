@@ -145,7 +145,7 @@ var compareFunc = function( a, b ) {
 
   console.log( $rootScope.listInFridge );
 
-  $scope.onDeleteSome = function( index, number ) {
+  $rootScope.onDeleteSome = function( index, number ) {
     console.log( "delete some index is " + index );
 
     // default for testing
@@ -187,10 +187,10 @@ var compareFunc = function( a, b ) {
 
 
   $scope.onSearchRecipe = function( ) {
-	if( data.length > 0 ) {
-		var ingredients = data[ 0 ].name;
-		for( var i = 1; i < data.length; ++i ) {
-			ingredients += "," + data[ i ].name;
+	if( $rootScope.listInFridge.length > 0 ) {
+		var ingredients = $rootScope.listInFridge[ 0 ].name;
+		for( var i = 1; i < $rootScope.listInFridge.length; ++i ) {
+			ingredients += "," + $rootScope.listInFridge[ i ].name;
 		}
 
 		//get_recipes_with_ingredients : function(fillingredients, ingredients, limitLicense=false, number, ranking){
@@ -199,7 +199,6 @@ var compareFunc = function( a, b ) {
 			console.log(result);
 			$rootScope.resultList = result;
 			$state.go('app.result' );
-
 		} );
 
 	 }
@@ -275,7 +274,7 @@ var compareFunc = function( a, b ) {
 
 
 
-.controller('favoriteCtrl', function($rootScope, $scope, $ionicLoading, $state, $ionicHistory, APIService ) {
+.controller('favoriteCtrl', function($rootScope, $scope, $ionicLoading, $state, $ionicHistory, APIService, APIController ) {
 
   if( !$rootScope.isFavReady && $rootScope.isFavReady != false) {
     $state.go( 'app' );
@@ -331,12 +330,24 @@ var compareFunc = function( a, b ) {
       $ionicHistory.nextViewOptions({
         disableBack: true
       });
-      APIService.get_recipe_detail( $rootScope.selectedRecipe.id )
-      .then( function( result ) {
-        console.log( result );
-        $rootScope.recipeDetails = result;
+      var result = APIController.getRecipeInformation( $rootScope.selectedRecipe.id );
+      //Function call returns a promise
+      result.then(function(success){
+        //success case
+        //getting context of response
+        console.log(success.getContext());
+        $rootScope.recipeDetail = success.getContext().response.body;
         $state.go('app.favoriteRecipe')
+
+      },function(err){
+        //failure case
       });
+      // APIService.get_recipe_detail( $rootScope.selectedRecipe.id )
+      // .then( function( result ) {
+      //   console.log( result );
+      //   $rootScope.recipeDetail = result;
+      //   $state.go('app.favoriteRecipe')
+      // });
     }
 
     // edit mode  clicking on a item will delete that item from the list.
@@ -345,7 +356,6 @@ var compareFunc = function( a, b ) {
       dummyDBManager.update();
     }
   }
-
 })
 
 
@@ -378,7 +388,7 @@ var compareFunc = function( a, b ) {
 })
 
 
-.controller('resultCtrl', function( $rootScope, $scope, $state, $ionicHistory, APIService) {
+.controller('resultCtrl', function( $rootScope, $scope, $state, $ionicHistory, APIService, APIController) {
 
   $scope.select = function ( index ) {
     $rootScope.selectedRecipe = $rootScope.resultList[ index ];
@@ -387,12 +397,24 @@ var compareFunc = function( a, b ) {
     $ionicHistory.nextViewOptions({
       disableBack: true
     });
-    APIService.get_recipe_detail( $rootScope.selectedRecipe.id )
-    .then( function( result ) {
-      console.log( result );
-      $rootScope.recipeDetails = result;
-      $state.go('app.selectedRecipe')
-    });
+    // APIService.get_recipe_detail( $rootScope.selectedRecipe.id )
+    // .then( function( result ) {
+    //   console.log( result );
+    //   $rootScope.recipeDetail = result;
+    //   $state.go('app.selectedRecipe')
+    // });
+    var result = APIController.getRecipeInformation( $rootScope.selectedRecipe.id );
+      //Function call returns a promise
+      result.then(function(success){
+        //success case
+        //getting context of response
+        console.log(success.getContext());
+        $rootScope.recipeDetail = success.getContext().response.body;
+        $state.go('app.selectedRecipe')
+
+      },function(err){
+        //failure case
+      });
   }
 
 
@@ -401,7 +423,7 @@ var compareFunc = function( a, b ) {
   // hashKey : object:40
   // id: 755321
   // image: url?
-  // readgyInMinutes: 35
+  // readyInMinutes: 35
   // title: korean noodles
 })
 
@@ -414,6 +436,22 @@ var compareFunc = function( a, b ) {
   //var imgURL = "http://lorempixel.com/400/200/";
   //var imgURL = "https://spoonacular.com/recipeImages/579247-556x370.jpg";
   console.log( imgURL );
+
+  // the user decided to cook the recipe
+  // the goal of this function is to remove the correct amount of ingredients from the fridge
+  $scope.cook = function() {
+    var usedArray = $rootScope.recipeDetail.extendedIngredients;
+    for( var i = 0; i < usedArray.length; ++i ) {
+      var index = $rootScope.listInFridge.indexOf( usedArray[ i ].name );
+      if( index != -1 ) {
+        $rootScope.onDeleteSome( index, usedArray[ i ].amount );
+      }
+      else {
+        // skip for now
+        // apply ingredient substitute?
+      }
+    }
+  }
 
   // button to go back to previous result of search
   $scope.back = function () {
