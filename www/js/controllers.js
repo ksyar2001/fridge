@@ -51,8 +51,10 @@ angular.module('starter.controllers', ['ionic'])
 
     $rootScope.listInFridge.push( { "name":$scope.input.name, "quantity":$scope.amount, "description":$scope.input.description } );
     $rootScope.listInFridge.sort( compareFunc );
+    console.log("Rootscope Fridge");
+    console.log($rootScope.listInFridge);
     dummyDBManager.update();
-    console.log( $rootScope.listInFridge );
+    // console.log( $rootScope.listInFridge );
   
     $state.go('app.fridge');
   }
@@ -119,7 +121,10 @@ var compareFunc = function( a, b ) {
   //$scope.artists.splice(fromIndex,1);
   //$scope.artists.splice(toIndex,0,item);
 
-  console.log( $rootScope.listInFridge );
+  $scope.clear_db = function(){
+    console.log("Clearing DB");
+    dummyDBManager.clean_table();
+  }
 
   $scope.onDelete = function( index ) {
 
