@@ -48,7 +48,7 @@
     <ion-item-sliding>
       <ion-item ng-repeat="item in listInFridge | filter:query" class="item-thumbnail-left item-icon-right item-text-wrap">
 
-        <img ng-src="{{item.img}}" alt="{{item.name}} Photo">
+        <img ng-src="{{item.image}}" alt="{{item.name}} Photo">
         <h2>{{item.name}}</h2>
         <h3>{{item.lastname}}</h3>
         <p>{{item.description | limitTo: 100}}{{item.description.length > 100 ? '&hellip;':''}}</p>
