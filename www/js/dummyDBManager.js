@@ -18,7 +18,7 @@ angular.module( 'starter.services' )
 				// _DB.executeStatement('DROP TABLE FRIDGE');
 			 // 	_DB.executeStatement('DROP TABLE FAVORITES');
 
-				_DB.executeStatement('CREATE TABLE IF NOT EXISTS FRIDGE (name TEXT unique, quantity INTEGER)');
+				_DB.executeStatement('CREATE TABLE IF NOT EXISTS FRIDGE (name TEXT unique, quantity INTEGER, image TEXT)');
 				_DB.executeStatement('CREATE TABLE IF NOT EXISTS FAVORITES (id INTEGER unique, title TEXT, dateSaved DATETIME)');
 			 	//DB.executeStatement('INSERT INTO FRIDGE (name, quantity) VALUES ("apple", 1)');
 			 	//DB.executeStatement('INSERT INTO FRIDGE (name, quantity) VALUES ("pear", 1)');
@@ -60,8 +60,8 @@ angular.module( 'starter.services' )
 			var favorites_tobe_added = [];
 			var favorites_tobe_deleted = [];
 			//for deleting and updating items
-			console.log("INITIAL DB");
-			console.log(initial_DB_Fridge);
+			// console.log("INITIAL DB");
+			// console.log(initial_DB_Fridge);
 			for (var i=0; i<initial_DB_Fridge.length; i++){
 				if (containsObject(initial_DB_Fridge[i], _listInFridge) == true){
 					//itmes for update
@@ -79,21 +79,21 @@ angular.module( 'starter.services' )
 					objects_tobe_added.push(_listInFridge[i]);
 				}
 			}
-			console.log("===DB Fridge===")
-			console.log(_listInFridge);
-			console.log("===TOBE_DELETED===");
-			console.log(objects_tobe_deleted);
-			console.log("===TOBE_ADDED===");
-			console.log(objects_tobe_added);
+			// console.log("===DB Fridge===")
+			// console.log(_listInFridge);
+			// console.log("===TOBE_DELETED===");
+			// console.log(objects_tobe_deleted);
+			// console.log("===TOBE_ADDED===");
+			// console.log(objects_tobe_added);
 
 			//for deleting in DB
 			for (var i=0; i<objects_tobe_deleted.length; i++){
-				console.log( "tobe deleted = " + objects_tobe_deleted[i].name );
+				// console.log( "tobe deleted = " + objects_tobe_deleted[i].name );
 				batch.executeStatement('DELETE from FRIDGE WHERE name=?', [objects_tobe_deleted[i].name,]);
 			}
 			//for adding in DB
 			for (var i=0; i<objects_tobe_added.length; i++){
-				batch.executeStatement('INSERT INTO FRIDGE (name, quantity) VALUES (?,?)', [objects_tobe_added[i].name, objects_tobe_added[i].quantity]);
+				batch.executeStatement('INSERT INTO FRIDGE (name, quantity, image) VALUES (?,?,?)', [objects_tobe_added[i].name, objects_tobe_added[i].quantity, objects_tobe_added[i].image]);
 			}
 			//for updating in DB
 			for (var i=0; i<objects_tobe_updated.length; i++){
