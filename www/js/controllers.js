@@ -40,11 +40,16 @@ angular.module('starter.controllers', ['ionic'])
   //$scope.description = "";
 
   var compareFunc = function( a, b ) {
-    return a.name.localeCompare( b.name, 'en', { 'sensitivity': 'base' } );
+    try {
+      return a.name.localeCompare( b.name, 'en', { 'sensitivity': 'base' } );
+    }
+    catch( err ) {
+      return -1;
+    }
   };
 
   $scope.toFridge = function () {
-    $scope.amount = $scope.amount || 3;
+    $scope.amount = $scope.amount || 1;
     var productJson = new Productjson( { "title": $scope.input.name } );
     var result = APIController.createClassifyAGroceryProduct( productJson );
     //Function call returns a promise
@@ -148,7 +153,7 @@ var compareFunc = function( a, b ) {
     console.log( "delete some index is " + index );
 
     // default for testing
-    index = index || ( $rootScope.listInFridge.length - 1 );
+    index = ( index == 0 || index ) ? index : ( $rootScope.listInFridge.length - 1 );
     number = number || 1;
 
     var target = $rootScope.listInFridge[ index ];
@@ -173,7 +178,8 @@ var compareFunc = function( a, b ) {
     console.log( "delete all index is " + index );
 
     // default for testing
-    index = index || ( $rootScope.listInFridge.length - 1 );
+    index = ( index == 0 || index ) ? index : ( $rootScope.listInFridge.length - 1 );
+
     if( $rootScope.listInFridge.length > 1 ) {
       $rootScope.listInFridge.splice( index, 1 );
     }
