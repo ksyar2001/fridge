@@ -180,7 +180,6 @@ var compareFunc = function( a, b ) {
       }
     }
     dummyDBManager.update();
-    console.log( $rootScope.listInFridge );
   }
 
   $scope.onDeleteAll = function( index ) {
@@ -197,7 +196,6 @@ var compareFunc = function( a, b ) {
       $rootScope.listInFridge.length = 0;
     }
     dummyDBManager.update();
-    console.log( $rootScope.listInFridge );
   }
 
 
@@ -291,7 +289,7 @@ var compareFunc = function( a, b ) {
 
 .controller('favoriteCtrl', function($rootScope, $scope, $ionicLoading, $state, $ionicHistory, APIService, APIController ) {
 
-  if( !$rootScope.isFavReady && $rootScope.isFavReady != false) {
+  if( $rootScope.isFavReady && $rootScope.isFavReady != false) {
     $state.go( 'app' );
   }
 
@@ -447,10 +445,10 @@ var compareFunc = function( a, b ) {
 
 
 
-  var imgURL = "http://spoonacular.com/recipeImages/" + $rootScope.selectedRecipe.id + "-312x150.jpg";
+  $scope.imgURL = "http://spoonacular.com/recipeImages/" + $rootScope.selectedRecipe.id + "-312x150.jpg";
   //var imgURL = "http://lorempixel.com/400/200/";
   //var imgURL = "https://spoonacular.com/recipeImages/579247-556x370.jpg";
-  console.log( imgURL );
+  console.log( $scope.imgURL );
 
   // the user decided to cook the recipe
   // the goal of this function is to remove the correct amount of ingredients from the fridge

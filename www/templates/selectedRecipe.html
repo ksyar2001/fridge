@@ -5,12 +5,10 @@
     <p>back to search result</p>
     <button class="button" ng-click="back()">back</button>
 
-
-    <p>need to be retrieved from online open database</p>
-    <img src="img/fridge.png" id="fridge">
-
     <!--<img src = "http://lorempixel.com/400/200/">-->
-    <img ng-src="{{imgURL || '//:0' }}" alt="{{imgURL}}" ng-if="!!imgURL">
+    <div>
+    <img ng-src="{{imgURL}}">
+    </div>
 
     <p>save it to favorite</p>
     <button class="button" ng-click="save()">save</button>
