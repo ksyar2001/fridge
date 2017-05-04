@@ -1,5 +1,8 @@
 <ion-view view-title="favorite">
 
+  <ion-content>
+  <br>
+
 
   <!-- Search recipe in the list of favorite recipe -->
   <div class="bar bar-subheader item-input-inset bar-light">
@@ -40,6 +43,20 @@
         {{item.title}} {{item.dateSaved.toISOString()}} </li>
     </ul>
 -->
+
+  <ion-list show-delete="data.showDelete" show-reorder="data.showReorder">
+    <!-- Show icon in left position: item-icon-left -->
+    <ion-item ng-repeat="item in listOfFavorite" class="item-thumbnail-left item-icon-right item-text-wrap" style={{style}} ng-click="clickOnList( $index )">
+      <img ng-src="{{item.img}}" alt="{{item.title}} Photo">
+      <h2>{{item.title}}</h2>
+      <h3>{{item.dateSaved}}</h3>
+
+
+
+    </ion-item>
+
+  </ion-list>
+
 
   </ion-content>
 </ion-view>

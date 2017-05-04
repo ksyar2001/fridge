@@ -70,7 +70,7 @@ angular.module('starter.controllers', ['ionic'])
       }
       else {
         $rootScope.listInFridge.push( { "name":answer.category, "quantity":$scope.amount, "description":$scope.input.description, "image":answer.image } );
-       // $rootScope.listInFridge.sort( compareFunc );
+        $rootScope.listInFridge.sort( compareFunc );
       }
       dummyDBManager.update();
       console.log( $rootScope.listInFridge );
@@ -253,9 +253,6 @@ var compareFunc = function( a, b ) {
 })
 
 
-// .controller('recipeCtrl', [function($scope, $rootScope, $state, $ionicHistory, APIService) {
-//
-// }])
 
 
 .controller('recipeCtrl', function($scope, $rootScope, $state, $ionicHistory, APIService) {
@@ -283,10 +280,39 @@ var compareFunc = function( a, b ) {
     {
       id: "Main Course",
       desc: 'Main Course'
-    }
+    },
+	{
+      id: "Dessert",
+      desc: 'Dessert'
+    },
+	{
+      id: "Salad",
+      desc: 'Salad'
+    },
+	{
+      id: "Bread",
+      desc: 'Bread'
+    },
+	{
+      id: "Soup",
+      desc: 'Soup'
+    },
+	{
+      id: "Beverage",
+      desc: 'Beverage'
+    },
+	{
+      id: "Sauce",
+      desc: 'Sauce'
+    },
+	{
+      id: "Drink",
+      desc: 'Drink'
+    },
+	
   ]
 
-  $scope.selecionado2 = 'American';
+  $scope.selecionado2 = 'African';
 
   $scope.selecionar2 = function(sel) {
     $scope.selecionado2 = sel;
@@ -295,40 +321,119 @@ var compareFunc = function( a, b ) {
 
   $scope.opcoes2 = [
     {
-      id: 'American',
-      desc: 'American'
+      id: 'African',
+      desc: 'African'
     },
     {
-      id: 'Korean',
+      id: 'Chinese',
+      desc: 'Chinese'
+    },
+    {
+      id: "Japanese",
+      desc: 'Japanese'
+    },
+    {
+      id: "Korean",
       desc: 'Korean'
     },
-    {
+	{
+      id: "Vietnamese",
+      desc: 'Vietnamese'
+    },
+	{
+      id: "Thai",
+      desc: 'Thai'
+    },
+	{
+      id: "Indian",
+      desc: 'Indian'
+    },
+	{
+      id: "British",
+      desc: 'British'
+    },
+	{
+      id: "Irish",
+      desc: 'Irish'
+    },
+	{
+      id: "French",
+      desc: 'French'
+    },
+	{
+      id: "Italian",
+      desc: 'Italian'
+    },
+	{
+      id: "Mexican",
+      desc: 'Mexican'
+    },
+	{
+      id: "Spanish",
+      desc: 'Spanish'
+    },
+	{
+      id: "Middle eastern",
+      desc: 'Middle eastern'
+    },
+	{
+      id: "Jewish",
+      desc: 'Jewish'
+    },
+	{
+      id: "American",
+      desc: 'American'
+    },
+	{
+      id: "Cajun",
+      desc: 'Cajun'
+    },
+	{
+      id: "Southern",
+      desc: 'Southern'
+    },
+	{
       id: "Greek",
       desc: 'Greek'
     },
-    {
-      id: "Italian",
-      desc: 'Italian'
+	{
+      id: "German",
+      desc: 'German'
+    },
+	{
+      id: "Nordic",
+      desc: 'Nordic'
+    },
+	{
+      id: "Eastern european",
+      desc: 'Eastern european'
+    },
+	{
+      id: "Caribbean",
+      desc: 'Caribbean'
+    },
+	{
+      id: "Latin american",
+      desc: 'Latin american'
     }
   ]
 
 
   $scope.search = function () {
-    console.log("search");
+	  
 
     // disable the automatically created back button from state.go
     // to keep the sidemenu accessible at all time
     $ionicHistory.nextViewOptions({
       disableBack: true
     });
+	$ionicHistory.clearCache();
 
-
-    //way to use the selected options
-    var x = document.getElementById("cuisine");
-    console.log("this is the thing :" + x.options[x.selectedIndex].text);
 
     // $state.go is in this method
+
     APIService.search_recipes($scope.selecionado2,"", "", false, "", false, 5, 0, "", $scope.selecionado)
+
     .then(function(result){
       console.log(result);
       $rootScope.resultList = result;
@@ -346,7 +451,7 @@ var compareFunc = function( a, b ) {
 
 
 .controller('favoriteCtrl', function($rootScope, $scope, $ionicLoading, $state, $ionicHistory, APIService, APIController ) {
-/*
+
   if( $rootScope.isFavReady && $rootScope.isFavReady != false) {
     $state.go( 'app' );
   }
@@ -362,7 +467,7 @@ var compareFunc = function( a, b ) {
   }
 
   $ionicLoading.hide();
-*/
+
   // initial constants
   $scope.button = "edit";
   $scope.style = "color:black; background-color:Beige";
@@ -506,13 +611,12 @@ var compareFunc = function( a, b ) {
 
 .controller('selectedRecipeCtrl', function($scope, $rootScope, $state, $ionicHistory, dummyDBManager, APIController, Productjsonarray) {
 
-  $scope.$apply( function() {
-      $scope.imgURL = "http://spoonacular.com/recipeImages/" + $rootScope.selectedRecipe.id +   "-312x150.jpg";
-      }
-  ) ;
+  $scope.img = { "url": null }
+
+  $scope.img.url = "http://spoonacular.com/recipeImages/" + $rootScope.selectedRecipe.id + "-312x150.jpg";
   //var imgURL = "http://lorempixel.com/400/200/";
   //var imgURL = "https://spoonacular.com/recipeImages/579247-556x370.jpg";
-  console.log( $scope.imgURL );
+  console.log( $scope.img.url );
 
   // the user decided to cook the recipe
   // the goal of this function is to remove the correct amount of ingredients from the fridge
