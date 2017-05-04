@@ -70,7 +70,7 @@ angular.module('starter.controllers', ['ionic'])
       }
       else {
         $rootScope.listInFridge.push( { "name":answer.category, "quantity":$scope.amount, "description":$scope.input.description, "image":answer.image } );
-        $rootScope.listInFridge.sort( compareFunc );
+        //$rootScope.listInFridge.sort( compareFunc );
       }
       dummyDBManager.update();
       console.log( $rootScope.listInFridge );
@@ -543,8 +543,9 @@ var compareFunc = function( a, b ) {
 
 
 .controller('resultCtrl', function( $rootScope, $scope, $state, $ionicHistory, APIService, APIController) {
-
+  
   $scope.select = function ( index ) {
+    $ionicHistory.clearCache();
     $rootScope.selectedRecipe = $rootScope.resultList[ index ];
     // disable the automatically created back button from state.go
     // to keep the sidemenu accessible at all time
@@ -585,6 +586,11 @@ var compareFunc = function( a, b ) {
 .controller('selectedRecipeCtrl', function($scope, $rootScope, $state, $ionicHistory, dummyDBManager, APIController, Productjsonarray) {
 
   $scope.img = { "url": null }
+  $scope.desc = { "text":null }
+
+  console.log( $rootScope.recipeDetail );
+
+  $scope.desc.text = $rootScope.recipeDetail.instructions;
 
   $scope.img.url = "http://spoonacular.com/recipeImages/" + $rootScope.selectedRecipe.id + "-312x150.jpg";
   //var imgURL = "http://lorempixel.com/400/200/";
