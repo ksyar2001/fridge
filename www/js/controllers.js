@@ -70,7 +70,7 @@ angular.module('starter.controllers', ['ionic'])
       }
       else {
         $rootScope.listInFridge.push( { "name":answer.category, "quantity":$scope.amount, "description":$scope.input.description, "image":answer.image } );
-       // $rootScope.listInFridge.sort( compareFunc );
+        $rootScope.listInFridge.sort( compareFunc );
       }
       dummyDBManager.update();
       console.log( $rootScope.listInFridge );
@@ -328,7 +328,7 @@ var compareFunc = function( a, b ) {
     console.log("this is the thing :" + x.options[x.selectedIndex].text);
 
     // $state.go is in this method
-    APIService.search_recipes($scope.selecionado2,"", "", false, "", false, 5, 0, "", $scope.selecionado)
+    APIService.search_recipes($scope.cuisine,"", "", false, "", false, 5, 0, "", $scope.type)
     .then(function(result){
       console.log(result);
       $rootScope.resultList = result;
@@ -346,7 +346,7 @@ var compareFunc = function( a, b ) {
 
 
 .controller('favoriteCtrl', function($rootScope, $scope, $ionicLoading, $state, $ionicHistory, APIService, APIController ) {
-/*
+
   if( $rootScope.isFavReady && $rootScope.isFavReady != false) {
     $state.go( 'app' );
   }
@@ -362,7 +362,7 @@ var compareFunc = function( a, b ) {
   }
 
   $ionicLoading.hide();
-*/
+
   // initial constants
   $scope.button = "edit";
   $scope.style = "color:black; background-color:Beige";
@@ -501,10 +501,9 @@ var compareFunc = function( a, b ) {
 
 .controller('selectedRecipeCtrl', function($scope, $rootScope, $state, $ionicHistory, dummyDBManager, APIController, Productjsonarray) {
 
-  $scope.$apply( function() {
-      $scope.imgURL = "http://spoonacular.com/recipeImages/" + $rootScope.selectedRecipe.id +   "-312x150.jpg";
-      }
-  ) ;
+
+
+  $scope.imgURL = "http://spoonacular.com/recipeImages/" + $rootScope.selectedRecipe.id + "-312x150.jpg";
   //var imgURL = "http://lorempixel.com/400/200/";
   //var imgURL = "https://spoonacular.com/recipeImages/579247-556x370.jpg";
   console.log( $scope.imgURL );
