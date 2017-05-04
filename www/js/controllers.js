@@ -54,7 +54,7 @@ angular.module('starter.controllers', ['ionic'])
     var result = APIController.createClassifyAGroceryProduct( productJson );
     //Function call returns a promise
     result.then(function(success){
-      
+
 			//success case
 			//getting context of response
 			console.log(success.getContext());
@@ -79,9 +79,9 @@ angular.module('starter.controllers', ['ionic'])
     catch( err ) {
       alert( "ERROR" );
     }
-    
+
     $state.go('app.fridge');
-      
+
 		},function(err){
 			//failure case
       alert( "ERROR : " + err.getContext() );
@@ -253,9 +253,6 @@ var compareFunc = function( a, b ) {
 })
 
 
-// .controller('recipeCtrl', [function($scope, $rootScope, $state, $ionicHistory, APIService) {
-//
-// }])
 
 
 .controller('recipeCtrl', function($scope, $rootScope, $state, $ionicHistory, APIService) {
@@ -283,10 +280,39 @@ var compareFunc = function( a, b ) {
     {
       id: "Main Course",
       desc: 'Main Course'
-    }
+    },
+	{
+      id: "Dessert",
+      desc: 'Dessert'
+    },
+	{
+      id: "Salad",
+      desc: 'Salad'
+    },
+	{
+      id: "Bread",
+      desc: 'Bread'
+    },
+	{
+      id: "Soup",
+      desc: 'Soup'
+    },
+	{
+      id: "Beverage",
+      desc: 'Beverage'
+    },
+	{
+      id: "Sauce",
+      desc: 'Sauce'
+    },
+	{
+      id: "Drink",
+      desc: 'Drink'
+    },
+	
   ]
 
-  $scope.selecionado2 = 'American';
+  $scope.selecionado2 = 'African';
 
   $scope.selecionar2 = function(sel) {
     $scope.selecionado2 = sel;
@@ -295,40 +321,119 @@ var compareFunc = function( a, b ) {
 
   $scope.opcoes2 = [
     {
-      id: 'American',
-      desc: 'American'
+      id: 'African',
+      desc: 'African'
     },
     {
-      id: 'Korean',
+      id: 'Chinese',
+      desc: 'Chinese'
+    },
+    {
+      id: "Japanese",
+      desc: 'Japanese'
+    },
+    {
+      id: "Korean",
       desc: 'Korean'
     },
-    {
+	{
+      id: "Vietnamese",
+      desc: 'Vietnamese'
+    },
+	{
+      id: "Thai",
+      desc: 'Thai'
+    },
+	{
+      id: "Indian",
+      desc: 'Indian'
+    },
+	{
+      id: "British",
+      desc: 'British'
+    },
+	{
+      id: "Irish",
+      desc: 'Irish'
+    },
+	{
+      id: "French",
+      desc: 'French'
+    },
+	{
+      id: "Italian",
+      desc: 'Italian'
+    },
+	{
+      id: "Mexican",
+      desc: 'Mexican'
+    },
+	{
+      id: "Spanish",
+      desc: 'Spanish'
+    },
+	{
+      id: "Middle eastern",
+      desc: 'Middle eastern'
+    },
+	{
+      id: "Jewish",
+      desc: 'Jewish'
+    },
+	{
+      id: "American",
+      desc: 'American'
+    },
+	{
+      id: "Cajun",
+      desc: 'Cajun'
+    },
+	{
+      id: "Southern",
+      desc: 'Southern'
+    },
+	{
       id: "Greek",
       desc: 'Greek'
     },
-    {
-      id: "Italian",
-      desc: 'Italian'
+	{
+      id: "German",
+      desc: 'German'
+    },
+	{
+      id: "Nordic",
+      desc: 'Nordic'
+    },
+	{
+      id: "Eastern european",
+      desc: 'Eastern european'
+    },
+	{
+      id: "Caribbean",
+      desc: 'Caribbean'
+    },
+	{
+      id: "Latin american",
+      desc: 'Latin american'
     }
   ]
 
 
   $scope.search = function () {
-    console.log("search");
+	  
 
     // disable the automatically created back button from state.go
     // to keep the sidemenu accessible at all time
     $ionicHistory.nextViewOptions({
       disableBack: true
     });
+	$ionicHistory.clearCache();
 
-
-    //way to use the selected options
-    var x = document.getElementById("cuisine");
-    console.log("this is the thing :" + x.options[x.selectedIndex].text);
 
     // $state.go is in this method
+
     APIService.search_recipes($scope.selecionado2,"", "", false, "", false, 5, 0, "", $scope.selecionado)
+
     .then(function(result){
       console.log(result);
       $rootScope.resultList = result;
@@ -427,6 +532,11 @@ var compareFunc = function( a, b ) {
       dummyDBManager.update();
     }
   }
+
+  $scope.onDelete = function(index) {
+    delete $rootScope.listOfFavorite[item.id.toString()];
+    dummyDBManager.update();
+  }
 })
 
 
@@ -519,7 +629,7 @@ var compareFunc = function( a, b ) {
       productJsonArray.push( { "title":usedArray[i].name } );
     }
     productJsonArray = productJsonArray.map( function( elem ) { return new Productjsonarray( elem ) } );
-    
+
 
     var result = APIController.createClassifyGroceryProductsBatch( productJsonArray );
     //Function call returns a promise
@@ -550,7 +660,7 @@ var compareFunc = function( a, b ) {
         }
       }
       console.log( $rootScope.listInFridge );
-     
+
 		},function(err){
 			//failure case
       console.log( err.getContext() );

@@ -4,34 +4,20 @@
 <br>
 <br>
 <br>
-<br>
 <div align="center" width="100" height="100">
     <h2>1. Choose meal type</h2>
-    <br>
-    <select style = "font-size:20px; width:60%; height: 40px;  transition: border-color 0.2s;
+    <select id="type" style = "font-size:20px; width:60%; height: 40px;  transition: border-color 0.2s;
   border: 5px solid #db3236;
   border-radius: 5px;
 
   background: #fff;
   color: #555;"ng-init="selecionado" name="type" ng-model="selecionado" ng-options="opcao.id as opcao.desc for opcao in opcoes">
       <br>
-      <!-- <option value="appetizer" selected>Appetizer</option>
-      <option value="breakfast">Breakfast</option>
-      <option value="side dish">Side Dish</option>
-      <option value="main course">Main Course</option>
-
-    -->
-
     </select>
     <br>
-
     <br>
-
-
-
 
     <h2>2. Choose world cuisine</h2>
-    <br>
     <select id="cuisine" style = "font-size:20px; width:60%; height: 40px; transition: border-color 0.2s;
   border: 5px solid #db3236;
   border-radius: 5px;
@@ -43,9 +29,19 @@
 
 <br>
 <br>
+
+    <h4>number to be displayed</h3>
+	<div style="float: center; width: 40%;">
+		<label class="item item-input">
+		  <input type="text" name="numSearch" id="numSearch-textarea" placeholder="number">
+		</label>
+    </div>
+	
+		
+<br>
 <br>
 <div>
-   <h3 >Give me some recipes of {{selecionado2}} {{selecionado}} !</h3>
+   <h3 >Give me some recipes of <br>{{selecionado2}} {{selecionado}} !</h3>
 </div>
 </div>
 

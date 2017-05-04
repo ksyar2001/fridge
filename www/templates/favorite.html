@@ -1,9 +1,18 @@
 <ion-view view-title="favorite">
+
+  <ion-content>
   <br>
 
 
-    <p>list of favorite. need some editing functions (delete)</p>
-    <p>currently using dummy list from dummyDBManager.js</p>
+  <!-- Search recipe in the list of favorite recipe -->
+  <div class="bar bar-subheader item-input-inset bar-light">
+    <label class="item-input-wrapper">
+      <i class="icon ion-search placeholder-icon"></i>
+      <input ng-model="query" type="search" placeholder="Search">
+    </label>
+  </div>
+  <br>
+  <br>
 
 
     <!--
@@ -11,14 +20,42 @@
     clicking an item will show its recipe.
     -->
 
-  <button class="button" ng-click="edit()">{{button}}</button>
 
-    <p>color is {{style}}</p>
+    <ion-list show-delete="data.showDelete" show-reorder="data.showReorder" >
+      <ion-item ng-repeat="item in listOfFavorite" class="item-thumbnail-left item-icon-right item-text-wrap" ng-click="clickOnList($index)">
 
+        <img ng-src="{{item.image}}" alt="{{item.name}} Photo">
+        <h2>{{item.title}} {{item.dateSaved.toISOString()}}</h2>
+
+
+        <ion-option-button class="button-assertive"
+                           ng-click="onDelete($index)">
+          Delete
+        </ion-option-button>
+
+      </ion-item>
+    </ion-list>
+
+
+<!--
     <ul>
       <li class="button button-full" ng-repeat="item in listOfFavorite" style={{style}} ng-click="clickOnList($index)">
         {{item.title}} {{item.dateSaved.toISOString()}} </li>
     </ul>
+-->
+
+  <ion-list show-delete="data.showDelete" show-reorder="data.showReorder">
+    <!-- Show icon in left position: item-icon-left -->
+    <ion-item ng-repeat="item in listOfFavorite" class="item-thumbnail-left item-icon-right item-text-wrap" style={{style}} ng-click="clickOnList( $index )">
+      <img ng-src="{{item.img}}" alt="{{item.title}} Photo">
+      <h2>{{item.title}}</h2>
+      <h3>{{item.dateSaved}}</h3>
+
+
+
+    </ion-item>
+
+  </ion-list>
 
 
   </ion-content>
