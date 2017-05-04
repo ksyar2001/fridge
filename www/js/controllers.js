@@ -260,59 +260,6 @@ var compareFunc = function( a, b ) {
 
 .controller('recipeCtrl', function($scope, $rootScope, $state, $ionicHistory, APIService) {
 
-  $scope.selecionado = 'Appetizer';
-
-  $scope.selecionar = function(sel) {
-    $scope.selecionado = sel;
-  }
-
-
-  $scope.opcoes = [
-    {
-      id: 'Appetizer',
-      desc: 'Appetizer'
-    },
-    {
-      id: 'Breakfast',
-      desc: 'Breakfast'
-    },
-    {
-      id: "Side Dish",
-      desc: 'Side Dish'
-    },
-    {
-      id: "Main Course",
-      desc: 'Main Course'
-    }
-  ]
-
-  $scope.selecionado2 = 'American';
-
-  $scope.selecionar2 = function(sel) {
-    $scope.selecionado2 = sel;
-  }
-
-
-  $scope.opcoes2 = [
-    {
-      id: 'American',
-      desc: 'American'
-    },
-    {
-      id: 'Korean',
-      desc: 'Korean'
-    },
-    {
-      id: "Greek",
-      desc: 'Greek'
-    },
-    {
-      id: "Italian",
-      desc: 'Italian'
-    }
-  ]
-
-
   $scope.search = function () {
     console.log("search");
 
