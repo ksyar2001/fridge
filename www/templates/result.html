@@ -8,10 +8,20 @@
 
 
 
-    <ul>
-      <li class="button button-full" ng-repeat="item in resultList" ng-click="select( $index )">
-        {{item.title}}</li>
-    </ul>
+    <ion-list show-delete="data.showDelete" show-reorder="data.showReorder">
+      <!-- Show icon in left position: item-icon-left -->
+      <ion-item ng-repeat="item in resultList | filter:query" class="item-thumbnail-left item-icon-right item-text-wrap" ng-click="select( $index )">
+        <img ng-src="{{item.img}}" alt="{{item.title}} Photo">
+        <h2>{{item.title}}</h2>
+
+
+      </ion-item>
+
+    </ion-list>
+
+
+
+
 
 
     <hr>
