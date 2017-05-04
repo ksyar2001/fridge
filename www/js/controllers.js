@@ -428,11 +428,12 @@ var compareFunc = function( a, b ) {
       disableBack: true
     });
 	$ionicHistory.clearCache();
+	
 
 
     // $state.go is in this method
 
-    APIService.search_recipes($scope.selecionado2,"", "", false, "", false, 5, 0, "", $scope.selecionado)
+    APIService.search_recipes($scope.selecionado2,"", "", false, "", false, $scope.numSearch, 0, "", $scope.selecionado)
 
     .then(function(result){
       console.log(result);
