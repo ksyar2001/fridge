@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'starter.APIservices'])
+var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'starter.APIservices', 'SpoonacularAPILib'])
 
 
 .run(function($ionicPlatform, $rootScope, DB, dummyDBManager, $ionicLoading ) {
@@ -24,27 +24,28 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
     }
 
 	DB.init();
-  
+
   //Initialize Fridge with Database
   $rootScope.listInFridge = [];
   $rootScope.listOfFavorite = {};
   dummyDBManager.init( DB, $rootScope.listInFridge, $rootScope.listOfFavorite);
   dummyDBManager.extract();
-  
-  //Show loading screen for DB wait
-  $ionicLoading.show({template: '<p class="item-icon-left">Initializing Database<ion-spinner icon="lines"/></p>'});
-  setTimeout(function() {
-    // console.log($rootScope.listInFridge);
-    // console.log($rootScope.listOfFavorite);
-    dummyDBManager.update();
-    $ionicLoading.hide();
-  }, 1500);
-});
 
+  //Show loading screen for DB wait
+//   $ionicLoading.show({template: '<p class="item-icon-left">Initializing Database<ion-spinner icon="lines"/></p>'});
+//   setTimeout(function() {
+//     // console.log($rootScope.listInFridge);
+//     // console.log($rootScope.listOfFavorite);
+//     dummyDBManager.update();
+//     $ionicLoading.hide();
+//   }, 1500);
+ });
+/*
   $ionicPlatform.on( "pause", function() {
       // updates DB with the 2 lists
       dummyDBManager.update();
   } );
+  */
 })
 /*
 .config( function( $compileProvider ) {
@@ -57,7 +58,7 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
       url: '/app',
       abstract: true,
       templateUrl: 'templates/menu.html',
-      controller: 'appCtrl'
+      controller: 'menuCtrl'
     })
 
   .state('app.homepage', {
@@ -121,6 +122,16 @@ var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.se
       'menuContent': {
         templateUrl: 'templates/favorite.html',
         controller: 'favoriteCtrl'
+      }
+    }
+  })
+
+  .state('app.modal', {
+    url: '/modal',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/modal.html',
+        controller: 'modalCtrl'
       }
     }
   })

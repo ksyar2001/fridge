@@ -1,7 +1,20 @@
 
 
+
 <ion-view view-title="fridge">
 
+  <ion-header-bar class="bar-positive">
+        <div class="buttons">
+          <button class="button button-icon icon ion-ios7-minus-outline"
+            ng-click="data.showDelete = !data.showDelete; data.showReorder = false"></button>
+        </div>
+        <h1 class="title">Ionic Delete/Option Buttons</h1>
+        <button class="button"
+            ng-click="data.showDelete = false; data.showReorder = !data.showReorder">
+              Reorder
+            </button>
+        </div>
+      </ion-header-bar>
 
   <div class="bar bar-subheader item-input-inset bar-light">
     <label class="item-input-wrapper">
@@ -10,60 +23,110 @@
     </label>
   </div>
 
-  <ion-content class="has-subheader">
+<div >
 
 
-    
-    <button class="button button-icon ion-minus-circled"
-    ng-click="data.showDelete = !data.showDelete; data.showReorder = false;"></button>
+  <ion-content class="has-subheader" >
+     <button class="button" ng-click="clear_db()">Clear DB</button>
+     <button class="button" ng-click="onDeleteSome()">del</button>
+     <button class="button"
+               ng-click="data.showDelete = false; data.showReorder = !data.showReorder">
+                 Reorder
+               </button>
 
-    <button class="button button-icon ion-navicon"
-    ng-click="data.showReorder = !data.showReorder; data.showDelete = false;"></button>
+
+  <div align="center" width="100" height="100">
+    <br>
+
+    <button class="button" style="background-color:4885ed ; color:white;   border-radius:0px;" ng-click="toModal()">Feed my Fridge</button>
+
+
+
+
+    <!--<button class="button button-icon ion-plus-circled"
+    ng-click="modalShow()"></button>-->
+  </div>
+
+
+
 
 
 
     <!--
     <p>list of items in fridge</p>
-    <p>need to find a list with +, - or edit</p>
+    <p>TODO: need to find a list with +, - or edit</p>
   -->
+  <br>
+  <br>
+  <ion-list show-delete="data.showDelete" show-reorder="data.showReorder" >
+    <!-- Show icon in left position: item-icon-left -->
 
 
-      <ion-list show-delete="data.showDelete" show-reorder="data.showReorder">
-          <!-- Show icon in left position: item-icon-left -->
-        <ion-item ng-repeat="item in artists | filter:query" class="item-thumbnail-left item-icon-right item-text-wrap">
-          <img ng-src="{{item.img}}" alt="{{item.name}} Photo">
-          <h2>{{item.name}}</h2>
-          <h3>{{item.lastname}}</h3>
-          <p>{{item.description | limitTo: 100}}{{item.description.length > 100 ? '&hellip;':''}}</p>
+      <ion-item ng-repeat="item in listInFridge | filter:query" class="item-thumbnail-left item-icon-right item-text-wrap" ng-click="clicker(item)">
+
+        <img ng-src="{{item.image}}" alt="{{item.name}} Photo">
+        <h2>{{item.name}}</h2>
+        <h3>{{item.lastname}}</h3>
+        <p>{{item.description | limitTo: 100}}{{item.description.length > 100 ? '&hellip;':''}}</p>
 
 
-          </ion-item>
+        <!--<ion-option-button class="button-assertive icon ion-trash-a" ng-click="onDeleteAll($index)">Delete</ion-option-button>
 
-        </ion-list>
+-->
+                  <ion-delete-button class="ion-minus-circled"
+                                     ng-click="onItemDelete(item)">
+                  </ion-delete-button>
+                  <ion-option-button class="button-assertive"
+                                     ng-click="onDeleteAll($index)">
+                    Delete
+                  </ion-option-button>
+
+                  <ion-reorder-button class="ion-navicon" on-reoder="moveItem(item, fromIndex, toIndex)"></ion-reorder-button>
+
+
+      </ion-item>
 
 
 
-  <!--
-  ng-repeat user saved item in the list of favorite
-  clicking an item will show its recipe.
+
+
+
+
+      </ion-list>
+
+      <br>
+      <br>
+
+
+      <div align="center" width="100" height="100">
+        <button class="button" style="background-color:db3236 ; color:white;   border-radius:0px;" ng-click="onSearchRecipe()">Search Recipe</button>
+      </div>
+
+
+      <!--
+      ng-repeat user saved item in the list of favorite
+      clicking an item will show its recipe.
+    -->
+
+    <!--
+    <ul>
+    <li class="button button-full" ng-repeat="item in listInFridge">
+    {{item.name}} {{item.dateSaved}} <button class="button" ng-click="edit()">edit</button> </li>
+  </ul>
 -->
 
 <!--
-<ul>
-<li class="button button-full" ng-repeat="item in listInFridge">
-{{item.name}} {{item.dateSaved}} <button class="button" ng-click="edit()">edit</button> </li>
-</ul>
--->
-
-
-
-
 <ul>
   <li ng-repeat="item in listInFridge">
     <button class="button" >{{item.name}} {{item.dateSaved}}</button><button class="button" ng-click="edit()">edit</button> </li>
   </ul>
 
+-->
+
 
 
 </ion-content>
+
+
+
 </ion-view>

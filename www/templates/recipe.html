@@ -1,31 +1,58 @@
 <ion-view view-title="search recipe">
 
-  <br />
 
+<br>
+<br>
+<br>
+<br>
+<div align="center" width="100" height="100">
+    <h2>1. Choose meal type</h2>
+    <br>
+    <select style = "font-size:20px; width:60%; height: 40px;  transition: border-color 0.2s;
+  border: 5px solid #db3236;
+  border-radius: 5px;
 
-    <h2>meal type</h2>
-    <select name="type" ng-model="type">
-      <option value="" disabled selected hidden>Appetizer</option>
-      <option value="appetizer" selected data-default>Appetizer</option>
+  background: #fff;
+  color: #555;"ng-init="selecionado" name="type" ng-model="selecionado" ng-options="opcao.id as opcao.desc for opcao in opcoes">
+      <br>
+      <!-- <option value="appetizer" selected>Appetizer</option>
       <option value="breakfast">Breakfast</option>
       <option value="side dish">Side Dish</option>
       <option value="main course">Main Course</option>
+
+    -->
+
     </select>
     <br>
 
+    <br>
 
-    <h2>world cuisine</h2>
-    <select id="cuisine" ng-model="cuisine">
-      <option value="" disabled selected hidden>American</option>
-      <option value="american" selected data-default>American</option>
-      <option value="korean">Korean</option>
-      <option value="greek">Greek</option>
-      <option value="italian">Italian</option>
+
+
+
+    <h2>2. Choose world cuisine</h2>
+    <br>
+    <select id="cuisine" style = "font-size:20px; width:60%; height: 40px; transition: border-color 0.2s;
+  border: 5px solid #db3236;
+  border-radius: 5px;
+
+  background: #fff;
+  color: #555;"ng-init="selecionado2" name="type" ng-model="selecionado2" ng-options="opcao2.id as opcao2.desc for opcao2 in opcoes2">
+
     </select>
 
+<br>
+<br>
+<br>
+<div>
+   <h3 >Give me some recipes of {{selecionado2}} {{selecionado}} !</h3>
+</div>
+</div>
 
-  <button class="button" ng-click="search()">search</button>
-
+<br>
+<div align="center" width="100" height="100">
+  <button class="button"  style="background-color:4885ed ; color:white;   border-radius:0px;" ng-click="search()">search</button>
+</div>
 
   </ion-content>
 </ion-view>
