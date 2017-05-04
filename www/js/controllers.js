@@ -451,7 +451,7 @@ var compareFunc = function( a, b ) {
 
 
 .controller('favoriteCtrl', function($rootScope, $scope, $ionicLoading, $state, $ionicHistory, APIService, APIController ) {
-
+/*
   if( $rootScope.isFavReady && $rootScope.isFavReady != false) {
     $state.go( 'app' );
   }
@@ -467,7 +467,7 @@ var compareFunc = function( a, b ) {
   }
 
   $ionicLoading.hide();
-
+*/
   // initial constants
   $scope.button = "edit";
   $scope.style = "color:black; background-color:Beige";
