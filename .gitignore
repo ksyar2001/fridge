@@ -8,6 +8,5 @@ temp/
 *.DS_Store
 *.log
 *.swp
-*.idea/
-*.vscode
-*.orig
+.idea/
+.vscode
