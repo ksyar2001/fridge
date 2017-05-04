@@ -54,7 +54,7 @@ angular.module('starter.controllers', ['ionic'])
     var result = APIController.createClassifyAGroceryProduct( productJson );
     //Function call returns a promise
     result.then(function(success){
-      
+
 			//success case
 			//getting context of response
 			console.log(success.getContext());
@@ -79,9 +79,9 @@ angular.module('starter.controllers', ['ionic'])
     catch( err ) {
       alert( "ERROR" );
     }
-    
+
     $state.go('app.fridge');
-      
+
 		},function(err){
 			//failure case
       alert( "ERROR : " + err.getContext() );
@@ -427,6 +427,11 @@ var compareFunc = function( a, b ) {
       dummyDBManager.update();
     }
   }
+
+  $scope.onDelete = function(index) {
+    delete $rootScope.listOfFavorite[item.id.toString()];
+    dummyDBManager.update();
+  }
 })
 
 
@@ -520,7 +525,7 @@ var compareFunc = function( a, b ) {
       productJsonArray.push( { "title":usedArray[i].name } );
     }
     productJsonArray = productJsonArray.map( function( elem ) { return new Productjsonarray( elem ) } );
-    
+
 
     var result = APIController.createClassifyGroceryProductsBatch( productJsonArray );
     //Function call returns a promise
@@ -551,7 +556,7 @@ var compareFunc = function( a, b ) {
         }
       }
       console.log( $rootScope.listInFridge );
-     
+
 		},function(err){
 			//failure case
       console.log( err.getContext() );
