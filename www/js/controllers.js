@@ -328,7 +328,7 @@ var compareFunc = function( a, b ) {
     console.log("this is the thing :" + x.options[x.selectedIndex].text);
 
     // $state.go is in this method
-    APIService.search_recipes($scope.cuisine,"", "", false, "", false, 5, 0, "", $scope.type)
+    APIService.search_recipes($scope.selecionado2,"", "", false, "", false, 5, 0, "", $scope.selecionado)
     .then(function(result){
       console.log(result);
       $rootScope.resultList = result;
@@ -501,12 +501,12 @@ var compareFunc = function( a, b ) {
 
 .controller('selectedRecipeCtrl', function($scope, $rootScope, $state, $ionicHistory, dummyDBManager, APIController, Productjsonarray) {
 
+  $scope.img = { "url": null }
 
-
-  $scope.imgURL = "http://spoonacular.com/recipeImages/" + $rootScope.selectedRecipe.id + "-312x150.jpg";
+  $scope.img.url = "http://spoonacular.com/recipeImages/" + $rootScope.selectedRecipe.id + "-312x150.jpg";
   //var imgURL = "http://lorempixel.com/400/200/";
   //var imgURL = "https://spoonacular.com/recipeImages/579247-556x370.jpg";
-  console.log( $scope.imgURL );
+  console.log( $scope.img.url );
 
   // the user decided to cook the recipe
   // the goal of this function is to remove the correct amount of ingredients from the fridge
