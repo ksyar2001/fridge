@@ -1,18 +1,32 @@
 <ion-view view-title="search result">
   <ion-content>
-    
+
     <h1>Here are recipes for you...</h1>
 
 
     <p>clicking it will lead to the selectedRecipe</p>
 
+    <ion-list show-delete="data.showDelete" show-reorder="data.showReorder" >
+      <ion-item ng-repeat="item in resultList" class="item-thumbnail-left item-icon-right item-text-wrap" ng-click="select( $index )">
 
 
+        <h2>{{item.title}} </h2>
+
+
+        <ion-option-button class="button-assertive"
+                           ng-click="onDelete($index)">
+          Delete
+        </ion-option-button>
+
+      </ion-item>
+    </ion-list>
+
+<!--
     <ul>
       <li class="button button-full" ng-repeat="item in resultList" ng-click="select( $index )">
         {{item.title}}</li>
     </ul>
-
+-->
 
     <hr>
     <p>show general status</p>
