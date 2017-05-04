@@ -22,7 +22,7 @@
 
 
     <ion-list show-delete="data.showDelete" show-reorder="data.showReorder" >
-      <ion-item ng-repeat="item in listOfFavorite" class="item-thumbnail-left item-icon-right item-text-wrap" ng-click="clickOnList($index)">
+      <ion-item ng-repeat="item in listOfFavorite" class="item-thumbnail-left item-icon-right item-text-wrap" ng-click="clickOnList(item.id)">
 
         <img ng-src="{{item.image}}" alt="{{item.name}} Photo">
         <h2>{{item.title}} {{item.dateSaved.toISOString()}}</h2>
@@ -44,8 +44,8 @@
     </ul>
 -->
 
-  <ion-list show-delete="data.showDelete" show-reorder="data.showReorder">
-    <!-- Show icon in left position: item-icon-left -->
+  <!--<ion-list show-delete="data.showDelete" show-reorder="data.showReorder">
+    <! Show icon in left position: item-icon-left >
     <ion-item ng-repeat="item in listOfFavorite" class="item-thumbnail-left item-icon-right item-text-wrap" style={{style}} ng-click="clickOnList( $index )">
       <img ng-src="{{item.img}}" alt="{{item.title}} Photo">
       <h2>{{item.title}}</h2>
@@ -55,7 +55,7 @@
 
     </ion-item>
 
-  </ion-list>
+  </ion-list>-->
 
 
   </ion-content>

@@ -474,63 +474,35 @@ var compareFunc = function( a, b ) {
   var mode = 0;
 
   // edit button is switched between edit or done every time its clicked. it changes the appearence of the list
-  $scope.edit = function () {
-
-    switch(mode){
-      // regular mode   --> switch to edit mode.
-      case 0:
-        mode = 1;
-        $scope.style = "color:white; background-color:DimGray";
-        $scope.button = "done";
-        console.log("reg to edit mode");
-        break;
-
-        // edit mode  --> switch to regular mode.
-      case 1:
-        mode = 0;
-        $scope.style = "color:black; background-color:Beige";
-        $scope.button = "edit";
-        console.log("edit to reg mode");
-        break;
-
-      default:
-        $scope.style = "color:black; background-color:Beige";
-
-    }
-  };
-
-  $scope.clickOnList = function ( index ) {
+ 
+  $scope.clickOnList = function ( id ) {
     // regular mode. clicking on it will lead to its recipe.
-    if (mode == 0) {
-      $rootScope.selectedRecipe = $rootScope.listOfFavorite[ index ];
-      $ionicHistory.nextViewOptions({
-        disableBack: true
-      });
-      var result = APIController.getRecipeInformation( $rootScope.selectedRecipe.id );
-      //Function call returns a promise
-      result.then(function(success){
-        //success case
-        //getting context of response
-        console.log(success.getContext());
-        $rootScope.recipeDetail = success.getContext().response.body;
-        $state.go('app.favoriteRecipe')
+    console.log( $rootScope.listOfFavorite );
+    
+    $rootScope.selectedRecipe = $rootScope.listOfFavorite[ id ];
+    $ionicHistory.nextViewOptions({
+      disableBack: true
+    });
+    var result = APIController.getRecipeInformation( $rootScope.selectedRecipe.id );
+    //Function call returns a promise
+    result.then(function(success){
+      //success case
+      //getting context of response
+      console.log(success.getContext());
+      $rootScope.recipeDetail = success.getContext().response.body;
+      $state.go('app.favoriteRecipe')
 
-      },function(err){
-        //failure case
-      });
-      // APIService.get_recipe_detail( $rootScope.selectedRecipe.id )
-      // .then( function( result ) {
-      //   console.log( result );
-      //   $rootScope.recipeDetail = result;
-      //   $state.go('app.favoriteRecipe')
-      // });
-    }
+    },function(err){
+      //failure case
+    });
+    // APIService.get_recipe_detail( $rootScope.selectedRecipe.id )
+    // .then( function( result ) {
+    //   console.log( result );
+    //   $rootScope.recipeDetail = result;
+    //   $state.go('app.favoriteRecipe')
+    // });
 
-    // edit mode  clicking on a item will delete that item from the list.
-    if (mode == 1) {
-      delete $rootScope.listOfFavorite[item.id.toString()];
-      dummyDBManager.update();
-    }
+    
   }
 
   $scope.onDelete = function(index) {
