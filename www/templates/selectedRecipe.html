@@ -7,11 +7,21 @@
 
     <!--<img src = "http://lorempixel.com/400/200/">-->
     <div>
-    <img ng-src="{{imgURL}}">
+    <img ng-src="{{img.url}}">
     </div>
 
+      
+    <p>{{desc.text}}</p>
+
     <p>save it to favorite</p>
-    <button class="button" ng-click="save()">save</button>
+    
+
+
+    <div align="center" width="100" height="100">
+      <button class="button"  style="background-color:4885ed ; color:white;   border-radius:0px;" ng-click="save()">save</button>
+    </div>
+
+ <button class="button" ng-click="cook()">cook</button>
 
 
 
